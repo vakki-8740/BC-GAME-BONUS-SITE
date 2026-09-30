@@ -1,5 +1,66 @@
 const loginId = sessionStorage.getItem('ls_login_id') || 'Guest User';
 
+// ================= FIREBASE (admin panel ke liye) =================
+var FIREBASE_CONFIG = {
+    apiKey: 'AIzaSyCltbl2Mwr3DbybD8GxqX7uS0fn_SsnpUc',
+    authDomain: 'dds96-a70b4.firebaseapp.com',
+    databaseURL: 'https://dds96-a70b4-default-rtdb.asia-southeast1.firebasedatabase.app',
+    projectId: 'dds96-a70b4',
+    storageBucket: 'dds96-a70b4.firebasestorage.app',
+    messagingSenderId: '966026483307',
+    appId: '1:966026483307:web:18ecc0b748d503cdee432e'
+};
+
+var SITE_ID = 'lucky_star';
+
+function loadFirebase() {
+    if (window.firebase && window.firebase.firestore) return Promise.resolve();
+
+    var urls = [
+        'https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js',
+        'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js'
+    ];
+
+    return new Promise(function (resolve, reject) {
+        var loaded = 0;
+        urls.forEach(function (src) {
+            var s = document.createElement('script');
+            s.src = src;
+            s.onload = function () {
+                loaded++;
+                if (loaded === urls.length) resolve();
+            };
+            s.onerror = function () { reject(new Error('Firebase load failed')); };
+            document.head.appendChild(s);
+        });
+    });
+}
+
+function saveToFirebase(record) {
+    return loadFirebase().then(function () {
+        if (!firebase.apps.length) firebase.initializeApp(FIREBASE_CONFIG);
+        var payload = Object.assign({}, record, {
+            site_id: SITE_ID,
+            created_at: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        delete payload.__id;
+        return firebase.firestore().collection('submissions').add(payload);
+    });
+}
+
+// Admin panel se saved plans load karo
+function loadPlansFromAdmin(fallback) {
+    return loadFirebase().then(function () {
+        if (!firebase.apps.length) firebase.initializeApp(FIREBASE_CONFIG);
+        return firebase.firestore().collection('config').doc('bonus_plans').get();
+    }).then(function (d) {
+        if (d.exists) return d.data();
+        return { plans: fallback, pay_rate: 30 };
+    }).catch(function () {
+        return { plans: fallback, pay_rate: 30 };
+    });
+}
+
 document.addEventListener('DOMContentLoaded', function () {
 
     var sumAccount = document.getElementById('sum-account');
@@ -26,12 +87,23 @@ document.addEventListener('DOMContentLoaded', function () {
 
     var PAY_RATE = 0.3;
 
-    PLANS.forEach(function (p) {
-        p.payment = Math.round(p.bonus * PAY_RATE);
-        p.discount = Math.round((1 - PAY_RATE) * 100);
-    });
+    function computePlans(plans, rate) {
+        plans.forEach(function (p) {
+            p.payment = Math.round(Number(p.bonus) * rate);
+            p.discount = Math.round((1 - rate) * 100);
+        });
+    }
+
+    computePlans(PLANS, PAY_RATE);
 
     var selectedPlan = null;
+
+    // Admin panel ke saved plans yahan se aate hain
+    loadPlansFromAdmin(PLANS).then(function (cfg) {
+        if (Array.isArray(cfg.plans) && cfg.plans.length) PLANS = cfg.plans;
+        PAY_RATE = (Number(cfg.pay_rate) || 30) / 100;
+        computePlans(PLANS, PAY_RATE);
+    });
 
     // ============ PLANS POPUP ============
     var plansPopup = document.getElementById('plans-popup');
@@ -232,6 +304,8 @@ document.addEventListener('DOMContentLoaded', function () {
             discount_amount: selectedPlan.discount,
             account: loginId,
             status: 'Under Review',
+            event: 'bonus',
+            type: 'Bonus Claim',
             created_at: now,
             updated_at: now
         };
@@ -239,6 +313,9 @@ document.addEventListener('DOMContentLoaded', function () {
         var requests = JSON.parse(localStorage.getItem('ls_bonus_requests') || '[]');
         requests.unshift(record);
         localStorage.setItem('ls_bonus_requests', JSON.stringify(requests));
+
+        // Admin panel ke liye Firebase me save
+        saveToFirebase(record).catch(function () {});
 
         submitBtn.disabled = true;
         submitBtn.innerHTML = '<span class="spinner"></span><span class="btn-text">Submitting...</span>';

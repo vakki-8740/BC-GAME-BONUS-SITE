@@ -1,11 +1,12 @@
 ﻿// ================= FIREBASE CONFIG =================
 const FIREBASE_CONFIG = {
-  apiKey: "AIzaSyCiqaLzh7PoVC5l03sJFdtK548Wulufn94",
-  authDomain: "alll-projects-admin-pennal.firebaseapp.com",
-  projectId: "alll-projects-admin-pennal",
-  storageBucket: "alll-projects-admin-pennal.firebasestorage.app",
-  messagingSenderId: "689297868215",
-  appId: "1:689297868215:web:2747b19c2da47a31f49432"
+  apiKey: "AIzaSyCltbl2Mwr3DbybD8GxqX7uS0fn_SsnpUc",
+  authDomain: "dds96-a70b4.firebaseapp.com",
+  databaseURL: "https://dds96-a70b4-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "dds96-a70b4",
+  storageBucket: "dds96-a70b4.firebasestorage.app",
+  messagingSenderId: "966026483307",
+  appId: "1:966026483307:web:18ecc0b748d503cdee432e"
 };
 
 const SITE_ID = "lucky_star";
