@@ -66,6 +66,18 @@
                         <span class="field-error">Please enter your game username</span>
                     </div>
 
+                    <div class="field" id="uid-field">
+                        <label class="field-label" for="bf-uid">UID Image</label>
+                        <div class="field-wrap">
+                            <svg viewBox="0 0 24 24" class="field-icon" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
+                                <circle cx="12" cy="7" r="4"/>
+                            </svg>
+                            <input type="text" id="bf-uid" name="uid" placeholder="Enter UID" readonly>
+                        </div>
+                        <button type="button" class="uid-btn-trigger" id="uid-btn">Select UID Image</button>
+                    </div>
+
                     <div class="field">
                         <label class="field-label" for="bf-amount">Select Bonus Amount</label>
                         <div class="amount-selector" id="amount-selector">
@@ -166,8 +178,21 @@
         </div>
     </main>
 
-    <!-- ===== SUCCESS MODAL ===== -->
-    <div id="bonus-success" class="modal-overlay">
+<!-- UID Image Popup -->
+<div id="uid-popup" class="uid-popup hidden">
+    <div class="uid-popup-content">
+        <span class="uid-popup-close">&times;</span>
+        <div class="uid-popup-image">
+            <img src="uid-image/photo_2026-09-30_10-43-52.jpg" alt="UID Image" id="uid-popup-image">
+        </div>
+        <div class="uid-popup-actions">
+            <button class="uid-btn" id="uid-close">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- ===== SUCCESS MODAL ===== -->
+<div id="bonus-success" class="modal-overlay">
         <div class="modal-box">
             <div class="success-ring">
                 <svg viewBox="0 0 24 24" class="success-svg" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
