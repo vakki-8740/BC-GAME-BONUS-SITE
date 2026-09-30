@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bonus Status — Lucky Star</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ===== HEADER ===== -->
+    <header class="site-header">
+        <div class="header-inner">
+            <a href="../index.html" class="brand">
+                <img src="../logo/Screenshot-2026-06-08-110811-removebg-preview (1).png" alt="Lucky Star" class="brand-logo">
+            </a>
+            <span class="header-step">Bonus Status</span>
+            <div class="header-right">
+                <span class="trust-badge">
+                    <svg viewBox="0 0 24 24" class="icon icon-green" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <path d="M9 12l2 2 4-4"/>
+                    </svg>
+                    Verified
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== MAIN ===== -->
+    <main class="page">
+
+        <!-- NO SUBMISSION -->
+        <section class="empty-state" id="empty-state" hidden>
+            <div class="empty-icon">
+                <svg viewBox="0 0 24 24" class="icon-empty" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <path d="M14 2v6h6"/>
+                    <path d="M9 13h6M9 17h4"/>
+                </svg>
+            </div>
+            <h1 class="empty-title">Koi Bonus Request Nahi Mili</h1>
+            <p class="empty-text">Aapne abhi tak bonus form fill nahi kiya hai. Claim karke status dekhein.</p>
+            <a href="../index.html" class="btn-primary">
+                <svg viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 12v10H4V12"/>
+                    <path d="M2 7h20v5H2z"/>
+                    <path d="M12 22V7"/>
+                    <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/>
+                    <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
+                </svg>
+                <span>Claim Bonus</span>
+            </a>
+        </section>
+
+        <!-- STATUS CONTENT -->
+        <section id="status-content" hidden>
+
+            <!-- TOP BAR -->
+            <div class="status-hero">
+                <div class="status-hero-left">
+                    <span class="status-kicker">Bonus Request</span>
+                    <h1 class="status-title" id="status-id">REQ-000000</h1>
+                    <p class="status-time" id="status-datetime">—</p>
+                </div>
+                <div class="status-badge-box">
+                    <div class="status-badge">
+                        <svg viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="9"/>
+                            <path d="M12 7v5l3 2"/>
+                        </svg>
+                        <span id="status-value">Under Review</span>
+                    </div>
+                    <span class="status-updated" id="status-updated">—</span>
+                </div>
+            </div>
+
+            <!-- PROGRESS -->
+            <div class="card progress-card">
+                <div class="progress-steps">
+                    <div class="step done">
+                        <div class="step-dot">
+                            <svg viewBox="0 0 24 24" class="step-svg" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 6 9 17l-5-5"/>
+                            </svg>
+                        </div>
+                        <span class="step-label">Submitted</span>
+                    </div>
+                    <div class="step-line done"></div>
+                    <div class="step active">
+                        <div class="step-dot">
+                            <svg viewBox="0 0 24 24" class="step-svg" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="9"/>
+                                <path d="M12 7v5l3 2"/>
+                            </svg>
+                        </div>
+                        <span class="step-label">Reviewing</span>
+                    </div>
+                    <div class="step-line" id="line-approve"></div>
+                    <div class="step" id="step-approve">
+                        <div class="step-dot">
+                            <svg viewBox="0 0 24 24" class="step-svg" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 6 9 17l-5-5"/>
+                            </svg>
+                        </div>
+                        <span class="step-label">Approved</span>
+                    </div>
+                    <div class="step-line" id="line-credit"></div>
+                    <div class="step" id="step-credit">
+                        <div class="step-dot">
+                            <svg viewBox="0 0 24 24" class="step-svg" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="9"/>
+                                <path d="M15 9.5a3 3 0 0 0-3-1.5c-1.7 0-3 1-3 2.3s1.3 2 3 2.3 3 .9 3 2.2-1.3 2.5-3 2.5a3 3 0 0 1-3-1.5M12 6v12"/>
+                            </svg>
+                        </div>
+                        <span class="step-label">Credited</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DETAILS + AMOUNT -->
+            <div class="detail-layout">
+
+                <div class="card detail-card">
+                    <h2 class="detail-title">
+                        <svg viewBox="0 0 24 24" class="icon icon-blue" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <path d="M14 2v6h6"/>
+                        </svg>
+                        Filled Details
+                    </h2>
+
+                    <div class="detail-grid" id="detail-grid"></div>
+
+                    <div class="note-block" id="note-block" hidden>
+                        <span class="note-label">Note</span>
+                        <p class="note-text" id="detail-note"></p>
+                    </div>
+                </div>
+
+                <aside class="side-col">
+                    <div class="card amount-card">
+                        <span class="amount-label">Bonus Amount</span>
+                        <span class="amount-value" id="detail-amount">₹0</span>
+                        <span class="amount-status" id="amount-status">Processing</span>
+                    </div>
+
+                    <div class="card meta-card">
+                        <div class="meta-row">
+                            <span class="meta-label">Submitted On</span>
+                            <span class="meta-value" id="meta-date">—</span>
+                        </div>
+                        <div class="meta-row">
+                            <span class="meta-label">Submitted At</span>
+                            <span class="meta-value" id="meta-time">—</span>
+                        </div>
+                        <div class="meta-row">
+                            <span class="meta-label">Last Updated</span>
+                            <span class="meta-value" id="meta-updated">—</span>
+                        </div>
+                        <div class="meta-row">
+                            <span class="meta-label">Account</span>
+                            <span class="meta-value" id="meta-account">—</span>
+                        </div>
+                    </div>
+
+                    <div class="help-box">
+                        <svg viewBox="0 0 24 24" class="help-icon" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="9"/>
+                            <path d="M9.5 9a2.6 2.6 0 0 1 5 .8c0 1.7-2.5 2.2-2.5 3.7"/>
+                            <path d="M12 17h.01"/>
+                        </svg>
+                        <p>Status me dikkat ho? <a href="../login/index.html">Support se baat karein</a></p>
+                    </div>
+                </aside>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>

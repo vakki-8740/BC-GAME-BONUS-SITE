@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claim Bonus — Lucky Star</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ===== HEADER ===== -->
+    <header class="site-header">
+        <div class="header-inner">
+            <a href="../index.html" class="brand">
+                <img src="../logo/Screenshot-2026-06-08-110811-removebg-preview (1).png" alt="Lucky Star" class="brand-logo">
+            </a>
+            <span class="header-step">Step 2 of 2 · Bonus Form</span>
+            <div class="header-right">
+                <span class="trust-badge">
+                    <svg viewBox="0 0 24 24" class="icon icon-green" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <path d="M9 12l2 2 4-4"/>
+                    </svg>
+                    Verified
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== MAIN ===== -->
+    <main class="page form-page">
+
+        <div class="form-layout">
+
+            <!-- LEFT: FORM -->
+            <section class="card form-card">
+                <div class="form-head">
+                    <span class="step-pill">Final Step</span>
+                    <h1 class="form-title">Claim Your Free Bonus</h1>
+                    <p class="form-sub">Neeche details bharein taaki bonus aapke account me credit ho sake.</p>
+                </div>
+
+                <form id="bonus-form" class="bonus-form" novalidate>
+
+                    <div class="field">
+                        <label class="field-label" for="bf-name">Full Name</label>
+                        <div class="field-wrap">
+                            <svg viewBox="0 0 24 24" class="field-icon" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                <circle cx="12" cy="7" r="4"/>
+                            </svg>
+                            <input type="text" id="bf-name" name="full_name" placeholder="Enter your full name" required>
+                        </div>
+                        <span class="field-error">Please enter your name</span>
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label" for="bf-user">Game Username (UID)</label>
+                        <div class="field-wrap">
+                            <svg viewBox="0 0 24 24" class="field-icon" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
+                                <circle cx="12" cy="7" r="4"/>
+                            </svg>
+                            <input type="text" id="bf-user" name="username" placeholder="e.g. lucky_player_88" required>
+                        </div>
+                        <span class="field-error">Please enter your game username</span>
+                    </div>
+
+                    <div class="field-row">
+                        <div class="field">
+                            <label class="field-label" for="bf-mobile">Mobile Number</label>
+                            <div class="field-wrap">
+                                <svg viewBox="0 0 24 24" class="field-icon" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="5" y="2" width="14" height="20" rx="2"/>
+                                    <path d="M11 18h2"/>
+                                </svg>
+                                <input type="tel" id="bf-mobile" name="mobile" placeholder="10 digit number" required>
+                            </div>
+                            <span class="field-error">Enter a valid mobile number</span>
+                        </div>
+
+                        <div class="field">
+                            <label class="field-label" for="bf-age">Your Age</label>
+                            <div class="field-wrap">
+                                <svg viewBox="0 0 24 24" class="field-icon" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="4" width="18" height="18" rx="2"/>
+                                    <path d="M16 2v4M8 2v4M3 10h18"/>
+                                </svg>
+                                <input type="number" id="bf-age" name="age" placeholder="Enter age" min="18" max="99" required>
+                            </div>
+                            <span class="field-error">You must be 18 or above</span>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label" for="bf-email">Email ID</label>
+                        <div class="field-wrap">
+                            <svg viewBox="0 0 24 24" class="field-icon" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="4" width="20" height="16" rx="2"/>
+                                <path d="m2 7 10 6 10-6"/>
+                            </svg>
+                            <input type="email" id="bf-email" name="email" placeholder="your@email.com" required>
+                        </div>
+                        <span class="field-error">Enter a valid email address</span>
+                    </div>
+
+                    <div class="field-row">
+                        <div class="field">
+                            <label class="field-label" for="bf-bank">UPI / Bank ID</label>
+                            <div class="field-wrap">
+                                <svg viewBox="0 0 24 24" class="field-icon" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="2" y="5" width="20" height="14" rx="2"/>
+                                    <path d="M2 10h20"/>
+                                </svg>
+                                <input type="text" id="bf-bank" name="bank_id" placeholder="UPI ID / Account No." required>
+                            </div>
+                            <span class="field-error">This field is required</span>
+                        </div>
+
+                        <div class="field">
+                            <label class="field-label" for="bf-amount">Bonus Amount</label>
+                            <div class="field-wrap">
+                                <svg viewBox="0 0 24 24" class="field-icon field-icon-green" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="9"/>
+                                    <path d="M15 9.5a3 3 0 0 0-3-1.5c-1.7 0-3 1-3 2.3s1.3 2 3 2.3 3 .9 3 2.2-1.3 2.5-3 2.5a3 3 0 0 1-3-1.5M12 6v12"/>
+                                </svg>
+                                <input type="number" id="bf-amount" name="bonus_amount" placeholder="Enter amount" required>
+                            </div>
+                            <span class="field-error">Enter the bonus amount</span>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label" for="bf-city">City / State</label>
+                        <div class="field-wrap">
+                            <svg viewBox="0 0 24 24" class="field-icon" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                <circle cx="12" cy="10" r="3"/>
+                            </svg>
+                            <input type="text" id="bf-city" name="city" placeholder="e.g. Mumbai, Maharashtra" required>
+                        </div>
+                        <span class="field-error">This field is required</span>
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label" for="bf-note">Anything else? (optional)</label>
+                        <div class="field-wrap field-wrap-area">
+                            <textarea id="bf-note" name="note" rows="3" placeholder="Write any message for our team..."></textarea>
+                        </div>
+                    </div>
+
+                    <label class="checkbox">
+                        <input type="checkbox" id="bf-agree" required>
+                        <span class="checkbox-box">
+                            <svg viewBox="0 0 24 24" class="check-svg" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 6 9 17l-5-5"/>
+                            </svg>
+                        </span>
+                        <span class="checkbox-text">I confirm the details above are correct and I am 18+</span>
+                    </label>
+
+                    <button type="submit" class="btn-primary btn-block" id="bf-submit">
+                        <svg viewBox="0 0 24 24" class="btn-svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 12v10H4V12"/>
+                            <path d="M2 7h20v5H2z"/>
+                            <path d="M12 22V7"/>
+                            <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/>
+                            <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
+                        </svg>
+                        <span class="btn-text">Submit &amp; Claim Bonus</span>
+                    </button>
+
+                </form>
+            </section>
+
+            <!-- RIGHT: SUMMARY -->
+            <aside class="side-col">
+                <div class="card summary-card">
+                    <h3 class="summary-title">Bonus Summary</h3>
+
+                    <div class="summary-row">
+                        <span class="summary-label">Account</span>
+                        <span class="summary-value" id="sum-account">—</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">Verification</span>
+                        <span class="summary-value summary-green">
+                            <svg viewBox="0 0 24 24" class="icon icon-green" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 6 9 17l-5-5"/>
+                            </svg>
+                            Verified
+                        </span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">Bonus Type</span>
+                        <span class="summary-value summary-green">Free Bonus</span>
+                    </div>
+
+                    <div class="summary-divider"></div>
+
+                    <ul class="summary-list">
+                        <li>
+                            <svg viewBox="0 0 24 24" class="icon icon-green" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 6 9 17l-5-5"/>
+                            </svg>
+                            Instant credit after verification
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" class="icon icon-blue" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 6 9 17l-5-5"/>
+                            </svg>
+                            No processing fee charged
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" class="icon icon-blue" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 6 9 17l-5-5"/>
+                            </svg>
+                            Support available 24/7
+                        </li>
+                    </ul>
+
+                    <div class="help-box">
+                        <svg viewBox="0 0 24 24" class="help-icon" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="9"/>
+                            <path d="M9.5 9a2.6 2.6 0 0 1 5 .8c0 1.7-2.5 2.2-2.5 3.7"/>
+                            <path d="M12 17h.01"/>
+                        </svg>
+                        <p>Koi problem aa rahi hai? <a href="../login/index.html">Support se baat karein</a></p>
+                    </div>
+                </div>
+            </aside>
+
+        </div>
+    </main>
+
+    <!-- ===== SUCCESS MODAL ===== -->
+    <div id="bonus-success" class="modal-overlay">
+        <div class="modal-box">
+            <div class="success-ring">
+                <svg viewBox="0 0 24 24" class="success-svg" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 6 9 17l-5-5"/>
+                </svg>
+            </div>
+            <h2 class="modal-title">Bonus Claimed!</h2>
+            <p class="modal-text">Aapka request successfully submit ho gaya hai. Bonus jald hi aapke account me add ho jayega.</p>
+
+            <div class="modal-stats">
+                <div class="stat">
+                    <span class="stat-label">Amount</span>
+                    <span class="stat-value" id="success-amount">—</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Status</span>
+                    <span class="stat-value stat-green">Processing</span>
+                </div>
+            </div>
+
+            <button id="bonus-done" class="btn-primary btn-block">Done</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
