@@ -80,18 +80,19 @@
 
                     <div class="field">
                         <label class="field-label" for="bf-amount">Select Bonus Amount</label>
-                        <div class="amount-selector" id="amount-selector">
-                            <span class="amount-label">Choose your bonus:</span>
-                            <div class="amount-buttons">
-                                <button class="amount-btn" data-amount="500">500₹</button>
-                                <button class="amount-btn" data-amount="1000">1000₹</button>
-                                <button class="amount-btn" data-amount="2000">2000₹</button>
-                                <button class="amount-btn" data-amount="4000">4000₹</button>
-                                <button class="amount-btn" data-amount="5000">5000₹</button>
-                                <button class="amount-btn" data-amount="7000">7000₹</button>
-                                <button class="amount-btn" data-amount="10000">10000₹</button>
-                            </div>
-                        </div>
+                        <button type="button" class="field-wrap picker-trigger" id="amount-trigger">
+                            <svg viewBox="0 0 24 24" class="field-icon field-icon-green" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 12v10H4V12"/>
+                                <path d="M2 7h20v5H2z"/>
+                                <path d="M12 22V7"/>
+                                <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/>
+                                <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
+                            </svg>
+                            <span class="picker-value" id="amount-value">Tap to choose bonus plan</span>
+                            <svg viewBox="0 0 24 24" class="picker-chevron" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="m6 9 6 6 6-6"/>
+                            </svg>
+                        </button>
                     </div>
 
                     <label class="checkbox">
@@ -178,15 +179,43 @@
         </div>
     </main>
 
+<!-- ===== BONUS PLANS POPUP ===== -->
+<div id="plans-popup" class="plans-popup hidden">
+    <div class="plans-panel">
+        <div class="plans-head">
+            <div class="plans-head-text">
+                <h2 class="plans-title">Select Bonus Plan</h2>
+                <p class="plans-sub">Apna plan choose karein</p>
+            </div>
+            <button type="button" class="plans-x" id="plans-close" aria-label="Close">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 6 6 18M6 6l12 12"/>
+                </svg>
+            </button>
+        </div>
+
+        <div class="plans-list" id="plans-list"></div>
+
+        <p class="plans-foot">
+            <svg viewBox="0 0 24 24" class="plans-foot-icon" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="9"/>
+                <path d="M9.5 9a2.6 2.6 0 0 1 5 .8c0 1.7-2.5 2.2-2.5 3.7"/>
+                <path d="M12 17h.01"/>
+            </svg>
+            Aapko sirf payment amount dena hai. Bonus amount aapke account me add ho jayega.
+        </p>
+    </div>
+</div>
+
 <!-- UID Image Popup -->
 <div id="uid-popup" class="uid-popup hidden">
     <div class="uid-popup-content">
-        <span class="uid-popup-close">&times;</span>
+        <span class="uid-popup-close" id="uid-x">&times;</span>
         <div class="uid-popup-image">
-            <img src="uid-image/photo_2026-09-30_10-43-52.jpg" alt="UID Image" id="uid-popup-image">
+            <img src="../uid-image/photo_2026-09-30_10-43-52.jpg" alt="UID Image">
         </div>
         <div class="uid-popup-actions">
-            <button class="uid-btn" id="uid-close">Close</button>
+            <button type="button" class="uid-btn" id="uid-close">Close</button>
         </div>
     </div>
 </div>

@@ -2,69 +2,174 @@ const loginId = sessionStorage.getItem('ls_login_id') || 'Guest User';
 
 document.addEventListener('DOMContentLoaded', function () {
 
-    const sumAccount = document.getElementById('sum-account');
+    var sumAccount = document.getElementById('sum-account');
     if (sumAccount) sumAccount.textContent = loginId;
 
-    const form = document.getElementById('bonus-form');
-    const submitBtn = document.getElementById('bf-submit');
-    const agreeBox = document.querySelector('.checkbox');
-    const successModal = document.getElementById('bonus-success');
-    const doneBtn = document.getElementById('bonus-done');
-    const successAmount = document.getElementById('success-amount');
-    const amountSelector = document.getElementById('amount-selector');
+    var form = document.getElementById('bonus-form');
+    var submitBtn = document.getElementById('bf-submit');
+    var agreeBox = document.querySelector('.checkbox');
+    var successModal = document.getElementById('bonus-success');
+    var doneBtn = document.getElementById('bonus-done');
+    var successAmount = document.getElementById('success-amount');
 
-    // Bonus amounts configuration (admin managed)
-    const AMOUNTS = [500, 1000, 2000, 4000, 5000, 7000, 10000];
-    let selectedAmount = null;
+    // ============ ADMIN MANAGED PLANS ============
+    // payment = 30% of bonus value, so user pays 30% and gets full bonus
+    var PLANS = [
+        { id: 1, name: 'Starter',    bonus: 500,   tag: '' },
+        { id: 2, name: 'Silver',     bonus: 1000,  tag: 'Popular' },
+        { id: 3, name: 'Gold',       bonus: 2000,  tag: '' },
+        { id: 4, name: 'Platinum',   bonus: 4000,  tag: 'Best Value' },
+        { id: 5, name: 'Diamond',    bonus: 5000,  tag: '' },
+        { id: 6, name: 'Ultra',      bonus: 7000,  tag: '' },
+        { id: 7, name: 'Legend',     bonus: 10000, tag: '' }
+    ];
 
-    // render amount buttons
-    function renderAmountButtons() {
-        let html = '';
-        AMOUNTS.forEach(amount => {
-            html += `<button class="amount-btn" data-amount="${amount}">${amount}₹</button>`;
-        });
-        amountSelector.innerHTML = html;
-    }
+    var PAY_RATE = 0.3;
 
-    renderAmountButtons();
-
-    // Amount button click handler
-    amountSelector.addEventListener('click', function (e) {
-        if (e.target.classList.contains('amount-btn')) {
-            document.querySelectorAll('.amount-btn').forEach(btn => btn.classList.remove('selected'));
-            e.target.classList.add('selected');
-            selectedAmount = parseInt(e.target.dataset.amount);
-            submitBtn.innerHTML = `<svg viewBox="0 0 24 24" class="btn-svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M20 12v10H4V12"/>
-                                <path d="M2 7h20v5H2z"/>
-                                <path d="M12 22V7"/>
-                                <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/>
-                                <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
-                            </svg>
-                            <span class="btn-text">Submit & Claim ₹${selectedAmount}</span>`;
-        }
+    PLANS.forEach(function (p) {
+        p.payment = Math.round(p.bonus * PAY_RATE);
+        p.discount = Math.round((1 - PAY_RATE) * 100);
     });
 
-    // ===== FIELD VALIDATORS =====
-    const validators = {
-        full_name: v => v.trim().length >= 3,
-        username: v => v.trim().length >= 3,
-        agree: function(v) { return v.checked; }
+    var selectedPlan = null;
+
+    // ============ PLANS POPUP ============
+    var plansPopup = document.getElementById('plans-popup');
+    var plansList = document.getElementById('plans-list');
+    var plansClose = document.getElementById('plans-close');
+    var amountTrigger = document.getElementById('amount-trigger');
+    var amountValue = document.getElementById('amount-value');
+
+    var GIFT_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'
+        + '<path d="M20 12v10H4V12"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/>'
+        + '<path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/>'
+        + '<path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>';
+
+    var CHECK_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">'
+        + '<path d="M20 6 9 17l-5-5"/></svg>';
+
+    function renderPlans() {
+        var html = '';
+
+        PLANS.forEach(function (p, i) {
+            var tagHtml = p.tag ? '<span class="plan-tag">' + p.tag + '</span>' : '';
+            var isSel = selectedPlan && selectedPlan.id === p.id ? ' selected' : '';
+
+            html += '<button type="button" class="plan-card' + isSel + '" data-id="' + p.id + '">'
+                + '<span class="plan-gift">' + GIFT_SVG + '</span>'
+                + '<span class="plan-mid">'
+                + '<span class="plan-name">' + p.name + tagHtml + '</span>'
+                + '<span class="plan-amounts">'
+                + '<span class="plan-bonus">₹' + p.bonus + '</span>'
+                + '<span class="plan-pay">Pay ₹' + p.payment + '</span>'
+                + '</span>'
+                + '</span>'
+                + '<span class="plan-right">'
+                + '<span class="plan-discount">' + p.discount + '%</span>'
+                + '<span class="plan-save">off</span>'
+                + '</span>'
+                + '<span class="plan-check">' + CHECK_SVG + '</span>'
+                + '</button>';
+        });
+
+        plansList.innerHTML = html;
+
+        // stagger entrance
+        Array.prototype.forEach.call(plansList.children, function (card, i) {
+            card.style.transitionDelay = (i * 0.04) + 's';
+        });
+
+        requestAnimationFrame(function () {
+            Array.prototype.forEach.call(plansList.children, function (card) {
+                card.classList.add('in');
+            });
+        });
+    }
+
+    function openPlans() {
+        renderPlans();
+        plansPopup.classList.remove('hidden');
+        requestAnimationFrame(function () { plansPopup.classList.add('open'); });
+    }
+
+    function closePlans() {
+        plansPopup.classList.remove('open');
+        setTimeout(function () { plansPopup.classList.add('hidden'); }, 280);
+    }
+
+    amountTrigger.addEventListener('click', openPlans);
+    plansClose.addEventListener('click', closePlans);
+
+    plansPopup.addEventListener('click', function (e) {
+        if (e.target === plansPopup) closePlans();
+    });
+
+    plansList.addEventListener('click', function (e) {
+        var card = e.target.closest('.plan-card');
+        if (!card) return;
+
+        var id = Number(card.dataset.id);
+        selectedPlan = PLANS.filter(function (p) { return p.id === id; })[0];
+        if (!selectedPlan) return;
+
+        Array.prototype.forEach.call(plansList.querySelectorAll('.plan-card'), function (c) {
+            c.classList.remove('selected');
+        });
+        card.classList.add('selected');
+
+        amountValue.textContent = selectedPlan.name + ' — Bonus ₹' + selectedPlan.bonus + ' (Pay ₹' + selectedPlan.payment + ')';
+        amountValue.classList.add('filled');
+
+        closePlans();
+    });
+
+    // ============ UID IMAGE POPUP ============
+    var uidBtn = document.getElementById('uid-btn');
+    var uidPopup = document.getElementById('uid-popup');
+    var uidClose = document.getElementById('uid-close');
+    var uidX = document.getElementById('uid-x');
+    var uidInput = document.getElementById('bf-uid');
+
+    function openUid() {
+        uidPopup.classList.remove('hidden');
+        requestAnimationFrame(function () { uidPopup.classList.add('show'); });
+    }
+
+    function closeUid() {
+        uidPopup.classList.remove('show');
+        setTimeout(function () { uidPopup.classList.add('hidden'); }, 300);
+    }
+
+    uidBtn.addEventListener('click', openUid);
+    uidClose.addEventListener('click', closeUid);
+    uidX.addEventListener('click', closeUid);
+
+    uidPopup.addEventListener('click', function (e) {
+        if (e.target === uidPopup) closeUid();
+    });
+
+    // UID read-only, filled by admin later
+    uidInput.value = uidInput.value || '';
+
+    // ============ VALIDATION ============
+    var validators = {
+        full_name: function (v) { return v.trim().length >= 3; },
+        username: function (v) { return v.trim().length >= 3; }
     };
 
     function validateField(input) {
-        const rule = validators[input.name];
-        const field = input.closest('.field');
+        var rule = validators[input.name];
+        var field = input.closest('.field');
         if (!rule) return true;
-        const ok = rule(input.value);
+        var ok = rule(input.value);
         field.classList.toggle('invalid', !ok);
         return ok;
     }
 
-    form.querySelectorAll('input').forEach(input => {
-        input.addEventListener('blur', () => validateField(input));
-        input.addEventListener('input', () => {
-            const field = input.closest('.field');
+    form.querySelectorAll('input').forEach(function (input) {
+        input.addEventListener('blur', function () { validateField(input); });
+        input.addEventListener('input', function () {
+            var field = input.closest('.field');
             if (field.classList.contains('invalid')) validateField(input);
         });
     });
@@ -73,50 +178,63 @@ document.addEventListener('DOMContentLoaded', function () {
         agreeBox.classList.toggle('invalid', !this.checked);
     });
 
+    // ============ SUBMIT ============
     form.addEventListener('submit', function (e) {
         e.preventDefault();
 
-        let valid = true;
-        form.querySelectorAll('input[required]').forEach(input => {
+        var valid = true;
+        form.querySelectorAll('input[required]').forEach(function (input) {
             if (!validateField(input)) valid = false;
         });
 
-        const agreeInput = agreeBox.querySelector('input');
+        var agreeInput = agreeBox.querySelector('input');
         agreeBox.classList.toggle('invalid', !agreeInput.checked);
         if (!agreeInput.checked) valid = false;
 
+        if (!selectedPlan) {
+            alert('Please select a bonus plan');
+            return;
+        }
+
         if (!valid) {
-            const firstBad = form.querySelector('.field.invalid');
+            var firstBad = form.querySelector('.field.invalid');
             if (firstBad) firstBad.scrollIntoView({ behavior: 'smooth', block: 'center' });
             return;
         }
 
-        const data = Object.fromEntries(new FormData(form).entries());
-        const now = new Date().toISOString();
+        var data = Object.fromEntries(new FormData(form).entries());
+        var now = new Date().toISOString();
 
-        const record = {
-            ...data,
-            request_id: 'REQ-' + String(Math.floor(100000 + Math.random() * 899999)),
+        var record = {
+            full_name: data.full_name,
+            username: data.username,
+            uid: data.uid || '',
+            plan_id: selectedPlan.id,
+            plan_name: selectedPlan.name,
+            bonus_amount: selectedPlan.bonus,
+            payment_amount: selectedPlan.payment,
+            discount_amount: selectedPlan.discount,
             account: loginId,
             status: 'Under Review',
             created_at: now,
             updated_at: now
         };
 
-        const requests = JSON.parse(localStorage.getItem('ls_bonus_requests') || '[]');
+        var requests = JSON.parse(localStorage.getItem('ls_bonus_requests') || '[]');
         requests.unshift(record);
         localStorage.setItem('ls_bonus_requests', JSON.stringify(requests));
 
         submitBtn.disabled = true;
         submitBtn.innerHTML = '<span class="spinner"></span><span class="btn-text">Submitting...</span>';
 
-        successAmount.textContent = '₹' + selectedAmount;
+        successAmount.textContent = '₹' + selectedPlan.bonus;
         successModal.classList.add('show');
+
         form.reset();
         agreeBox.classList.remove('invalid');
-        renderAmountButtons();
-        document.querySelectorAll('.amount-btn').forEach(btn => btn.classList.remove('selected'));
-        selectedAmount = null;
+        selectedPlan = null;
+        amountValue.textContent = 'Tap to choose bonus plan';
+        amountValue.classList.remove('filled');
     });
 
     doneBtn.addEventListener('click', function () {

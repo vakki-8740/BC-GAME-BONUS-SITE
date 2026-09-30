@@ -8,12 +8,11 @@ document.addEventListener('DOMContentLoaded', function () {
     var FIELDS = [
         { key: 'full_name', label: 'Full Name' },
         { key: 'username', label: 'Game Username' },
-        { key: 'mobile', label: 'Mobile Number' },
-        { key: 'age', label: 'Age' },
-        { key: 'email', label: 'Email ID' },
-        { key: 'bank_id', label: 'UPI / Bank ID' },
+        { key: 'uid', label: 'UID' },
+        { key: 'plan_name', label: 'Plan' },
         { key: 'bonus_amount', label: 'Bonus Amount', prefix: RUPEE },
-        { key: 'city', label: 'City / State' }
+        { key: 'payment_amount', label: 'Payment Amount', prefix: RUPEE },
+        { key: 'discount_amount', label: 'Discount', prefix: RUPEE }
     ];
 
     function setText(id, text) {
