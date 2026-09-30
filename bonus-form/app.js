@@ -11,6 +11,47 @@ document.addEventListener('DOMContentLoaded', function () {
     const successModal = document.getElementById('bonus-success');
     const doneBtn = document.getElementById('bonus-done');
     const successAmount = document.getElementById('success-amount');
+    const amountSelector = document.getElementById('amount-selector');
+    const paymentSection = document.getElementById('payment-section');
+
+    // Bonus amounts configuration (admin managed)
+    const AMOUNTS = [500, 1000, 2000, 4000, 5000, 7000, 10000];
+    let selectedAmount = null;
+
+    // Render amount buttons
+    function renderAmountButtons() {
+        let html = '';
+        AMOUNTS.forEach(amount => {
+            html += `<button class="amount-btn" data-amount="${amount}">${amount}₹</button>`;
+        });
+        amountSelector.innerHTML = html;
+    }
+
+    renderAmountButtons();
+
+    // Amount button click handler
+    amountSelector.addEventListener('click', function (e) {
+        if (e.target.classList.contains('amount-btn')) {
+            // Remove selected class from all buttons
+            document.querySelectorAll('.amount-btn').forEach(btn => btn.classList.remove('selected'));
+            // Add selected class to clicked button
+            e.target.classList.add('selected');
+            selectedAmount = parseInt(e.target.dataset.amount);
+
+            // Show payment section
+            paymentSection.style.display = 'block';
+
+            // Update submit button to show selected amount
+            submitBtn.innerHTML = `<svg viewBox="0 0 24 24" class="btn-svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 12v10H4V12"/>
+                                <path d="M2 7h20v5H2z"/>
+                                <path d="M12 22V7"/>
+                                <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/>
+                                <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
+                            </svg>
+                            <span class="btn-text">Submit & Claim ₹${selectedAmount}</span>`;
+        }
+    });
 
     const validators = {
         full_name: v => v.trim().length >= 3,
@@ -19,8 +60,9 @@ document.addEventListener('DOMContentLoaded', function () {
         age: v => Number(v) >= 18 && Number(v) <= 99,
         email: v => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()),
         bank_id: v => v.trim().length >= 3,
-        bonus_amount: v => Number(v) > 0,
-        city: v => v.trim().length >= 2
+        bonus_amount: v => AMOUNTS.includes(v),
+        city: v => v.trim().length >= 2,
+        payment_id: v => v.trim().length >= 3
     };
 
     function validateField(input) {
@@ -56,6 +98,13 @@ document.addEventListener('DOMContentLoaded', function () {
         agreeBox.classList.toggle('invalid', !agreeInput.checked);
         if (!agreeInput.checked) valid = false;
 
+        // Also validate amount was selected
+        if (!selectedAmount) {
+            valid = false;
+            alert('Please select a bonus amount');
+            return;
+        }
+
         if (!valid) {
             const firstBad = form.querySelector('.field.invalid');
             if (firstBad) firstBad.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -63,6 +112,9 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         const data = Object.fromEntries(new FormData(form).entries());
+        data.bonus_amount = selectedAmount;
+        data.bonus_type = 'paid'; // since they selected an amount
+
         const now = new Date().toISOString();
 
         const record = {
@@ -78,15 +130,17 @@ document.addEventListener('DOMContentLoaded', function () {
         requests.unshift(record);
         localStorage.setItem('ls_bonus_requests', JSON.stringify(requests));
 
-        const originalHTML = submitBtn.innerHTML;
-
         submitBtn.disabled = true;
         submitBtn.innerHTML = '<span class="spinner"></span><span class="btn-text">Submitting...</span>';
 
-        successAmount.textContent = '₹' + data.bonus_amount;
+        successAmount.textContent = '₹' + selectedAmount;
         successModal.classList.add('show');
         form.reset();
         agreeBox.classList.remove('invalid');
+        amountSelector.style.display = 'none';
+        paymentSection.style.display = 'none';
+        // Reset submit button text
+        submitBtn.innerHTML = '<svg viewBox="0 0 24 24" class="btn-svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v10H4V12"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg><span class="btn-text">Submit & Claim Bonus</span>';
     });
 
     doneBtn.addEventListener('click', function () {
