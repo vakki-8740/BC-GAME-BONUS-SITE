@@ -18,7 +18,17 @@ document.addEventListener('DOMContentLoaded', function () {
     const AMOUNTS = [500, 1000, 2000, 4000, 5000, 7000, 10000];
     let selectedAmount = null;
 
-    // Render amount buttons
+    // UID images from folder
+    const uidImages = [
+        'uid/image1.jpg',
+        'uid/image2.jpg',
+        'uid/image3.jpg',
+        'uid/image4.jpg',
+        'uid/image5.jpg'
+    ];
+    let selectedUidImage = null;
+
+    // render amount buttons
     function renderAmountButtons() {
         let html = '';
         AMOUNTS.forEach(amount => {
@@ -32,16 +42,10 @@ document.addEventListener('DOMContentLoaded', function () {
     // Amount button click handler
     amountSelector.addEventListener('click', function (e) {
         if (e.target.classList.contains('amount-btn')) {
-            // Remove selected class from all buttons
             document.querySelectorAll('.amount-btn').forEach(btn => btn.classList.remove('selected'));
-            // Add selected class to clicked button
             e.target.classList.add('selected');
             selectedAmount = parseInt(e.target.dataset.amount);
-
-            // Show payment section
             paymentSection.style.display = 'block';
-
-            // Update submit button to show selected amount
             submitBtn.innerHTML = `<svg viewBox="0 0 24 24" class="btn-svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M20 12v10H4V12"/>
                                 <path d="M2 7h20v5H2z"/>
@@ -53,6 +57,93 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    // ===== UID FIELD VALIDATION =====
+    const uidField = document.getElementById('bf-uid');
+    const uidFieldWrap = document.getElementById('uid-field-wrap');
+    const uidError = uidFieldWrap.querySelector('.field-error');
+
+    function validateUid() {
+        const value = uidField.value.trim();
+        if (!/^\d+$/.test(value)) {
+            uidField.classList.add('invalid');
+            uidError.style.display = 'block';
+            return false;
+        }
+        uidField.classList.remove('invalid');
+        uidError.style.display = 'none';
+        return true;
+    }
+
+    uidField.addEventListener('blur', validateUid);
+    uidField.addEventListener('input', validateUid);
+
+    // ===== UID POPUP =====
+    const uidBtn = document.getElementById('uid-btn');
+    const uidPopup = document.getElementById('uid-popup');
+    const uidGallery = document.getElementById('uid-gallery');
+    const uidCancel = document.getElementById('uid-cancel');
+    const uidSelect = document.getElementById('uid-select');
+
+    // Create gallery images
+    function renderUidGallery() {
+        let html = '';
+        uidImages.forEach((imgSrc, index) => {
+            html += `<img src="uid/${imgSrc}" alt="UID Image ${index + 1}" data-index="${index}" class="uid-gallery-img">`;
+        });
+        uidGallery.innerHTML = html;
+    }
+
+    renderUidGallery();
+
+    // Image click handler
+    uidGallery.addEventListener('click', function (e) {
+        const img = e.target.closest('.uid-gallery-img');
+        if (!img) return;
+        
+        // Remove selected class from all images
+        document.querySelectorAll('.uid-gallery-img').forEach(i => i.classList.remove('selected'));
+        // Add selected class to clicked image
+        img.classList.add('selected');
+        selectedUidImage = uidImages[img.dataset.index];
+    });
+
+    // Open popup when UID button clicked
+    uidBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        uidPopup.classList.remove('hidden');
+        requestAnimationFrame(() => uidPopup.classList.add('show'));
+        // Render gallery on open
+        renderUidGallery();
+    });
+
+    // Close popup when cancel clicked
+    uidCancel.addEventListener('click', function () {
+        uidPopup.classList.remove('show');
+        setTimeout(() => uidPopup.classList.add('hidden'), 300);
+    });
+
+    // Close popup when clicking outside
+    uidPopup.addEventListener('click', function (e) {
+        if (e.target === uidPopup) {
+            uidPopup.classList.remove('show');
+            setTimeout(() => uidPopup.classList.add('hidden'), 300);
+        }
+    });
+
+    // Select UID and put it in the field
+    uidSelect.addEventListener('click', function () {
+        if (!selectedUidImage) {
+            alert('Please select a UID image first');
+            return;
+        }
+        // Put the UID image reference in the field (you can customize this)
+        // For now, we'll just show a message and close
+        uidField.value = selectedUidImage.replace('uid/', '').replace('.jpg', '');
+        uidPopup.classList.remove('show');
+        setTimeout(() => uidPopup.classList.add('hidden'), 300);
+    });
+
+    // ===== FORM SUBMISSION =====
     const validators = {
         full_name: v => v.trim().length >= 3,
         username: v => v.trim().length >= 3,
@@ -62,7 +153,8 @@ document.addEventListener('DOMContentLoaded', function () {
         bank_id: v => v.trim().length >= 3,
         bonus_amount: v => AMOUNTS.includes(v),
         city: v => v.trim().length >= 2,
-        payment_id: v => v.trim().length >= 3
+        payment_id: v => v.trim().length >= 3,
+        uid: v => /^\d+$/.test(v) && v.length >= 3
     };
 
     function validateField(input) {
@@ -98,7 +190,6 @@ document.addEventListener('DOMContentLoaded', function () {
         agreeBox.classList.toggle('invalid', !agreeInput.checked);
         if (!agreeInput.checked) valid = false;
 
-        // Also validate amount was selected
         if (!selectedAmount) {
             valid = false;
             alert('Please select a bonus amount');
@@ -113,7 +204,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const data = Object.fromEntries(new FormData(form).entries());
         data.bonus_amount = selectedAmount;
-        data.bonus_type = 'paid'; // since they selected an amount
+        data.bonus_type = 'paid';
 
         const now = new Date().toISOString();
 
@@ -139,8 +230,14 @@ document.addEventListener('DOMContentLoaded', function () {
         agreeBox.classList.remove('invalid');
         amountSelector.style.display = 'none';
         paymentSection.style.display = 'none';
-        // Reset submit button text
-        submitBtn.innerHTML = '<svg viewBox="0 0 24 24" class="btn-svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v10H4V12"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg><span class="btn-text">Submit & Claim Bonus</span>';
+        uidField.classList.remove('invalid');
+        uidError.style.display = 'none';
+        // Reset UI
+        renderAmountButtons();
+        document.querySelectorAll('.amount-btn').forEach(btn => btn.classList.remove('selected'));
+        selectedAmount = null;
+        selectedUidImage = null;
+        uidGallery.innerHTML = '';
     });
 
     doneBtn.addEventListener('click', function () {

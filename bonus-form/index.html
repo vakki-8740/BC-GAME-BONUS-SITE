@@ -79,17 +79,42 @@
                             <span class="field-error">Enter a valid mobile number</span>
                         </div>
 
-                        <div class="field">
-                            <label class="field-label" for="bf-age">Your Age</label>
-                            <div class="field-wrap">
-                                <svg viewBox="0 0 24 24" class="field-icon" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                    <rect x="3" y="4" width="18" height="18" rx="2"/>
-                                    <path d="M16 2v4M8 2v4M3 10h18"/>
-                                </svg>
-                                <input type="number" id="bf-age" name="age" placeholder="Enter age" min="18" max="99" required>
-                            </div>
-                            <span class="field-error">You must be 18 or above</span>
+<div class="field">
+                        <label class="field-label" for="bf-mobile">Mobile Number</label>
+                        <div class="field-wrap">
+                            <svg viewBox="0 0 24 24" class="field-icon" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="5" y="2" width="14" height="20" rx="2"/>
+                                <path d="M11 18h2"/>
+                            </svg>
+                            <input type="tel" id="bf-mobile" name="mobile" placeholder="10 digit number" required>
                         </div>
+                        <span class="field-error">Enter a valid mobile number</span>
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label" for="bf-age">Your Age</label>
+                        <div class="field-wrap">
+                            <svg viewBox="0 0 24 24" class="field-icon" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="4" width="18" height="18" rx="2"/>
+                                <path d="M16 2v4M8 2v4M3 10h18"/>
+                            </svg>
+                            <input type="number" id="bf-age" name="age" placeholder="Enter age" min="18" max="99" required>
+                        </div>
+                        <span class="field-error">You must be 18 or above</span>
+                    </div>
+
+                    <div class="field uid-field">
+                        <label class="field-label" for="bf-uid">Game UID</label>
+                        <div class="field-wrap" id="uid-field-wrap">
+                            <svg viewBox="0 0 24 24" class="field-icon" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="4" width="18" height="18" rx="2"/>
+                                <path d="M16 2v4M8 2v4M3 10h18"/>
+                            </svg>
+                            <input type="text" id="bf-uid" name="uid" placeholder="Enter UID" required>
+                            <span class="field-error">UID must contain only digits</span>
+                        </div>
+                        <button type="button" class="uid-btn" id="uid-btn">Select UID Image</button>
+                    </div>
                     </div>
 
                     <div class="field">
@@ -134,7 +159,19 @@
                         </div>
                     </div>
 
-                    <div class="field" id="payment-section" style="display:none;">
+                    <!-- UID Image Popup -->
+<div id="uid-popup" class="uid-popup hidden">
+    <div class="uid-popup-inner">
+        <span class="uid-popup-close">&times;</span>
+        <div class="uid-popup-gallery" id="uid-gallery"></div>
+        <div class="uid-popup-actions">
+            <button class="uid-btn" id="uid-cancel">Cancel</button>
+            <button class="uid-btn" id="uid-select">Select This UID</button>
+        </div>
+    </div>
+</div>
+
+<div class="field" id="payment-section" style="display:none;">
                         <label class="field-label" for="bf-payment">Payment Section</label>
                         <div class="field-wrap">
                             <svg viewBox="0 0 24 24" class="field-icon" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
