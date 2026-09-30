@@ -8,56 +8,8 @@
 </head>
 <body>
 
-<!-- ================= LOGIN ================= -->
-<div id="admin-login" class="admin-login">
-    <div class="al-box">
-        <div class="al-logo">
-            <img src="../logo/Screenshot-2026-06-08-110811-removebg-preview (1).png" alt="Lucky Star" class="al-logo-img">
-            <h1>Admin Panel</h1>
-            <p>Sign in to continue</p>
-        </div>
-
-        <form id="login-form" class="al-form">
-            <div class="al-field">
-                <label class="al-label" for="al-email">Email</label>
-                <div class="al-wrap">
-                    <svg viewBox="0 0 24 24" class="al-icon" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="2" y="4" width="20" height="16" rx="2"/>
-                        <path d="m2 7 10 6 10-6"/>
-                    </svg>
-                    <input type="email" id="al-email" placeholder="admin@example.com" autocomplete="username">
-                </div>
-            </div>
-
-            <div class="al-field">
-                <label class="al-label" for="al-pass">Password</label>
-                <div class="al-wrap">
-                    <svg viewBox="0 0 24 24" class="al-icon" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="4" y="10" width="16" height="11" rx="2"/>
-                        <path d="M8 10V7a4 4 0 0 1 8 0v3"/>
-                    </svg>
-                    <input type="password" id="al-pass" placeholder="••••••••" autocomplete="current-password">
-                </div>
-            </div>
-
-            <p class="al-error" id="al-error"></p>
-
-            <button type="submit" class="btn-primary al-btn" id="al-submit">
-                <svg viewBox="0 0 24 24" class="btn-svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
-                    <path d="m10 17 5-5-5-5"/>
-                    <path d="M15 12H3"/>
-                </svg>
-                <span class="btn-text">Sign In</span>
-            </button>
-        </form>
-
-        <p class="al-foot">Firebase Auth se verified admin hi login kar sakta hai</p>
-    </div>
-</div>
-
 <!-- ================= APP ================= -->
-<div id="admin-app" class="admin-app" hidden>
+<div id="admin-app" class="admin-app">
 
     <!-- TOPBAR -->
     <header class="ad-top">
@@ -76,12 +28,6 @@
                 <span class="ad-net" id="ad-net">
                     <span class="dot"></span> Online
                 </span>
-                <button class="ad-logout" id="ad-logout" title="Logout">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-                        <path d="m16 17 5-5-5-5"/><path d="M21 12H9"/>
-                    </svg>
-                </button>
             </div>
         </div>
     </header>
@@ -256,7 +202,7 @@
                             <p class="plans-desc">Amount aur payment rate yahan se control hota hai</p>
                         </div>
                         <div class="rate-wrap">
-                            <label class="al-label" for="pay-rate">Payment Rate %</label>
+                            <label class="ad-label" for="pay-rate">Payment Rate %</label>
                             <input type="number" id="pay-rate" min="1" max="100" step="1">
                         </div>
                     </div>

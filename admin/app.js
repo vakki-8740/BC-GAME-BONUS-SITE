@@ -1,15 +1,9 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    var loginScreen = document.getElementById('admin-login');
-    var appScreen = document.getElementById('admin-app');
-    var loginForm = document.getElementById('login-form');
-    var loginErr = document.getElementById('al-error');
-    var loginBtn = document.getElementById('al-submit');
     var netBadge = document.getElementById('ad-net');
     var toast = document.getElementById('toast');
 
     var db = null;
-    var auth = null;
     var unsubscribe = [];
     var requests = [];
     var logins = [];
@@ -32,72 +26,17 @@ document.addEventListener('DOMContentLoaded', function () {
         netBadge.lastChild.textContent = on ? ' Online' : ' Offline';
     }
 
-    // ================= BOOT =================
+    // ================= BOOT (no login) =================
     initFirebase()
         .then(function (f) {
-            auth = f.auth;
             db = f.db;
-            auth.onAuthStateChanged(function (user) {
-                if (user) showApp(user);
-                else showLogin();
-            });
+            subscribeAll();
+            loadPlans();
         })
         .catch(function (e) {
             setNet(false);
-            loginErr.textContent = 'Firebase load fail: ' + e.message;
-            loginErr.classList.add('show');
+            showToast('Firebase load fail: ' + e.message, true);
         });
-
-    // ================= LOGIN =================
-    loginForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-
-        var email = document.getElementById('al-email').value.trim();
-        var pass = document.getElementById('al-pass').value;
-
-        loginErr.classList.remove('show');
-
-        if (!email || !pass) {
-            loginErr.textContent = 'Email aur password dono bharein';
-            loginErr.classList.add('show');
-            return;
-        }
-
-        loginBtn.disabled = true;
-        loginBtn.innerHTML = '<span class="spinner"></span><span class="btn-text">Signing in...</span>';
-
-        auth.signInWithEmailAndPassword(email, pass)
-            .catch(function (err) {
-                loginBtn.disabled = false;
-                loginBtn.innerHTML = '<svg viewBox="0 0 24 24" class="btn-svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><path d="m10 17 5-5-5-5"/><path d="M15 12H3"/></svg><span class="btn-text">Sign In</span>';
-
-                loginErr.textContent =
-                    err.code === 'auth/invalid-credential' ? 'Email ya password galat hai' :
-                    err.code === 'auth/user-not-found' ? 'Ye admin account exist nahi karta' :
-                    err.code === 'auth/too-many-requests' ? 'Bahut try kiya, thodi der baad karein' :
-                    err.message;
-
-                loginErr.classList.add('show');
-            });
-    });
-
-    document.getElementById('ad-logout').addEventListener('click', function () {
-        auth.signOut();
-    });
-
-    function showLogin() {
-        appScreen.hidden = true;
-        loginScreen.style.display = 'flex';
-        loginBtn.disabled = false;
-        loginBtn.innerHTML = '<svg viewBox="0 0 24 24" class="btn-svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><path d="m10 17 5-5-5-5"/><path d="M15 12H3"/></svg><span class="btn-text">Sign In</span>';
-    }
-
-    function showApp(user) {
-        loginScreen.style.display = 'none';
-        appScreen.hidden = false;
-        subscribeAll();
-        loadPlans();
-    }
 
     // ================= DATA =================
     function subscribeAll() {

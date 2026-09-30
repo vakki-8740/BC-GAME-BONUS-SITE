@@ -73,105 +73,14 @@ button { font-family: inherit; }
     animation: spin .7s linear infinite;
 }
 
-/* ================= LOGIN ================= */
-.admin-login {
-    position: fixed;
-    inset: 0;
-    z-index: 100;
-    background: var(--bg-main);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-}
+/* ================= APP SHELL ================= */
+.admin-app { min-height: 100vh; }
 
-.al-box {
-    width: 100%;
-    max-width: 380px;
-    background: var(--card);
-    border: 1px solid var(--divider);
-    border-radius: 18px;
-    padding: 30px 26px;
-    animation: riseIn .45s ease both;
-}
-
-.al-logo { text-align: center; }
-
-.al-logo-img { height: 40px; width: auto; display: block; margin: 0 auto; }
-
-.al-logo h1 {
-    margin-top: 12px;
-    font-size: 21px;
-    font-weight: 800;
-    color: #FFFFFF;
-}
-
-.al-logo p { margin-top: 4px; font-size: 13px; color: var(--text-dim-2); }
-
-.al-form { margin-top: 24px; display: flex; flex-direction: column; gap: 14px; }
-
-.al-field { display: flex; flex-direction: column; gap: 6px; }
-
-.al-label {
+.ad-label {
     font-size: 12px;
     font-weight: 600;
     color: var(--text-dim);
 }
-
-.al-wrap {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    height: 46px;
-    padding: 0 13px;
-    background: var(--card-inner);
-    border: 1px solid var(--divider);
-    border-radius: 10px;
-    transition: border-color .2s ease, box-shadow .2s ease;
-}
-
-.al-wrap:focus-within {
-    border-color: var(--green);
-    box-shadow: 0 0 0 3px rgba(0, 230, 118, .1);
-}
-
-.al-icon { width: 17px; height: 17px; color: #A5A5A5; flex-shrink: 0; }
-
-.al-wrap input {
-    flex: 1; min-width: 0;
-    background: transparent;
-    border: none;
-    outline: none;
-    color: var(--text-normal);
-    font-size: 14.5px;
-}
-
-.al-wrap input::placeholder { color: #6C6C72; }
-
-.al-error {
-    display: none;
-    font-size: 12px;
-    color: var(--danger);
-    background: rgba(255, 77, 77, .08);
-    border: 1px solid rgba(255, 77, 77, .22);
-    border-radius: 8px;
-    padding: 9px 11px;
-}
-
-.al-error.show { display: block; }
-
-.al-btn { width: 100%; margin-top: 4px; }
-
-.al-foot {
-    margin-top: 18px;
-    text-align: center;
-    font-size: 11.5px;
-    color: var(--text-dim);
-    line-height: 1.5;
-}
-
-/* ================= APP SHELL ================= */
-.admin-app { min-height: 100vh; }
 
 .ad-top {
     position: sticky;
@@ -236,22 +145,6 @@ button { font-family: inherit; }
 }
 
 .ad-net.off .dot { background: var(--danger); box-shadow: 0 0 8px rgba(255, 77, 77, .6); }
-
-.ad-logout {
-    width: 36px; height: 36px;
-    border: 1px solid var(--divider);
-    border-radius: 10px;
-    background: var(--card-inner);
-    color: var(--text-dim);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background .2s, color .2s;
-}
-
-.ad-logout svg { width: 17px; height: 17px; }
-.ad-logout:hover { background: #2C2D32; color: var(--danger); }
 
 .ad-body { display: flex; align-items: flex-start; }
 

@@ -14,7 +14,6 @@ const SITE_ID = "lucky_star";
 
 const CDN = [
   "https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js",
-  "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js",
   "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"
 ];
 
@@ -43,7 +42,6 @@ async function initFirebase() {
   if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
 
   return {
-    auth: firebase.auth(),
     db: firebase.firestore()
   };
 }

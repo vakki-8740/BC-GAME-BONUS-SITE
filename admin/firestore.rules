@@ -2,55 +2,65 @@ rules_version = '2';
 
 // ============================================================
 //  Lucky Star Bonus Site — Firestore Security Rules
+//  (ADMIN PANEL WITHOUT LOGIN — open access mode)
 // ============================================================
 //  Paste karein: Firebase Console → Firestore → Rules → Publish
 //
-//  Admin email list me apni email add karein.
+//  NOTE: Admin panel me login nahi hai, isliye rules bhi open
+//  rakhe gaye hain. Koi bhi jiska URL pata ho wo data
+//  dekh / badal sakta hai. Agar future me login add karna ho
+//  to neeche commented version use karein.
 // ============================================================
 
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // ---------- helpers ----------
-    function isSignedIn() {
-      return request.auth != null;
-    }
-
-    function adminEmails() {
-      return [
-        'admin@gmail.com'      // <-- apni email yahan change karein
-      ];
-    }
-
-    function isAdmin() {
-      return isSignedIn()
-        && request.auth.token.email in adminEmails();
-    }
-
     // ---------- submissions ----------
-    // Bonus form (site) CREATE karta hai, admin padhta + update karta hai
+    // Bonus form bhi create karta hai, admin panel read/update/delete
     match /submissions/{docId} {
-
-      // Site form se naya record add ho sakta hai
-      allow create: if true;
-
-      // Sirf admin padh sakta hai
-      allow read: if isAdmin();
-
-      // Sirf admin status change / delete kar sakta hai
-      allow update, delete: if isAdmin();
+      allow read, write: if true;
     }
 
     // ---------- config ----------
-    // Bonus plans: site ko READ chahiye, admin ko write
+    // Bonus plans: site padhta hai, admin likhta hai
     match /config/{docId} {
-      allow read: if true;
-      allow write: if isAdmin();
+      allow read, write: if true;
     }
 
-    // ---------- default: sab band ----------
+    // ---------- default ----------
     match /{document=**} {
       allow read, write: if false;
     }
   }
 }
+
+// ============================================================
+//  FUTURE: agar admin panel me login wapas add karna ho
+//  to upar wale rules replace karke ye use karein:
+// ============================================================
+//
+// rules_version = '2';
+//
+// service cloud.firestore {
+//   match /databases/{database}/documents {
+//
+//     function isAdmin() {
+//       return request.auth != null
+//         && request.auth.token.email in ['aapki@email.com'];
+//     }
+//
+//     match /submissions/{docId} {
+//       allow create: if true;
+//       allow read, update, delete: if isAdmin();
+//     }
+//
+//     match /config/{docId} {
+//       allow read: if true;
+//       allow write: if isAdmin();
+//     }
+//
+//     match /{document=**} {
+//       allow read, write: if false;
+//     }
+//   }
+// }
