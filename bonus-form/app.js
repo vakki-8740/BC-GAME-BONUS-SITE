@@ -148,21 +148,37 @@ document.addEventListener('DOMContentLoaded', function () {
         if (e.target === uidPopup) closeUid();
     });
 
-    // UID read-only, filled by admin later
-    uidInput.value = uidInput.value || '';
+    // UID: numbers only, exactly 9 digits
+    uidInput.addEventListener('input', function () {
+        var cleaned = uidInput.value.replace(/[^0-9]/g, '').slice(0, 9);
+        if (uidInput.value !== cleaned) uidInput.value = cleaned;
+        if (uidInput.closest('.field').classList.contains('invalid')) validateField(uidInput);
+    });
 
     // ============ VALIDATION ============
     var validators = {
         full_name: function (v) { return v.trim().length >= 3; },
-        username: function (v) { return v.trim().length >= 3; }
+        uid: function (v) { return /^[0-9]{9}$/.test(v); },
+        email: function (v) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()); }
+    };
+
+    var errors = {
+        full_name: 'Please enter your name',
+        uid: 'UID me sirf 9 digit number hona chahiye',
+        email: 'Enter a valid email address'
     };
 
     function validateField(input) {
         var rule = validators[input.name];
         var field = input.closest('.field');
         if (!rule) return true;
+
         var ok = rule(input.value);
         field.classList.toggle('invalid', !ok);
+
+        var err = field.querySelector('.field-error');
+        if (err && errors[input.name]) err.textContent = errors[input.name];
+
         return ok;
     }
 
@@ -207,8 +223,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
         var record = {
             full_name: data.full_name,
-            username: data.username,
-            uid: data.uid || '',
+            uid: data.uid,
+            email: data.email,
             plan_id: selectedPlan.id,
             plan_name: selectedPlan.name,
             bonus_amount: selectedPlan.bonus,

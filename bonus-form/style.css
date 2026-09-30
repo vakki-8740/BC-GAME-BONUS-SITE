@@ -823,6 +823,53 @@ a {
     color: var(--green-hi);
 }
 
+/* ===== UID VIEW BUTTON ===== */
+.uid-row {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    flex-wrap: wrap;
+}
+
+.view-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border: 1px solid rgba(41, 169, 232, 0.3);
+    border-radius: 999px;
+    background: rgba(41, 169, 232, 0.1);
+    color: var(--blue);
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .3px;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background .2s ease, border-color .2s ease, transform .2s ease;
+}
+
+.view-btn-icon {
+    width: 14px;
+    height: 14px;
+}
+
+.view-btn:hover {
+    background: rgba(41, 169, 232, 0.18);
+    border-color: rgba(41, 169, 232, 0.5);
+    transform: translateY(-1px);
+}
+
+.view-btn:active {
+    transform: translateY(0);
+}
+
+.uid-hint {
+    font-size: 11.5px;
+    color: var(--text-dim);
+    line-height: 1.4;
+}
+
 .uid-btn {
     padding: 9px 18px;
     border: none;

@@ -7,12 +7,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     var FIELDS = [
         { key: 'full_name', label: 'Full Name' },
-        { key: 'username', label: 'Game Username' },
-        { key: 'uid', label: 'UID' },
+        { key: 'uid', label: 'Game UID' },
+        { key: 'email', label: 'Email ID' },
         { key: 'plan_name', label: 'Plan' },
         { key: 'bonus_amount', label: 'Bonus Amount', prefix: RUPEE },
         { key: 'payment_amount', label: 'Payment Amount', prefix: RUPEE },
-        { key: 'discount_amount', label: 'Discount', prefix: RUPEE }
+        { key: 'discount_amount', label: 'Discount', suffix: '%' }
     ];
 
     function setText(id, text) {
@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         var value = document.createElement('span');
         value.className = 'cell-value';
-        value.textContent = (f.prefix || '') + (latest[f.key] || DASH);
+        value.textContent = (latest[f.key] === undefined || latest[f.key] === '' ? DASH : (f.prefix || '') + latest[f.key] + (f.suffix || ''));
 
         cell.appendChild(label);
         cell.appendChild(value);

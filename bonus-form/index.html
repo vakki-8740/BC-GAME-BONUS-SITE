@@ -54,28 +54,38 @@
                         <span class="field-error">Please enter your name</span>
                     </div>
 
-                    <div class="field">
-                        <label class="field-label" for="bf-user">Game Username (UID)</label>
+                    <div class="field" id="uid-field">
+                        <label class="field-label" for="bf-uid">Enter Game UID</label>
                         <div class="field-wrap">
                             <svg viewBox="0 0 24 24" class="field-icon" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
                                 <circle cx="12" cy="7" r="4"/>
                             </svg>
-                            <input type="text" id="bf-user" name="username" placeholder="e.g. lucky_player_88" required>
+                            <input type="text" id="bf-uid" name="uid" inputmode="numeric" maxlength="9" placeholder="Enter 9 digit UID">
                         </div>
-                        <span class="field-error">Please enter your game username</span>
+                        <div class="uid-row">
+                            <button type="button" class="view-btn" id="uid-btn">
+                                <svg viewBox="0 0 24 24" class="view-btn-icon" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7z"/>
+                                    <circle cx="12" cy="12" r="3"/>
+                                </svg>
+                                <span>View</span>
+                            </button>
+                            <span class="uid-hint">Apne game profile me UID kahan milega, ye dekhein</span>
+                        </div>
+                        <span class="field-error">UID me sirf 9 digit number hona chahiye</span>
                     </div>
 
-                    <div class="field" id="uid-field">
-                        <label class="field-label" for="bf-uid">UID Image</label>
+                    <div class="field">
+                        <label class="field-label" for="bf-email">Email ID</label>
                         <div class="field-wrap">
                             <svg viewBox="0 0 24 24" class="field-icon" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
-                                <circle cx="12" cy="7" r="4"/>
+                                <rect x="2" y="4" width="20" height="16" rx="2"/>
+                                <path d="m2 7 10 6 10-6"/>
                             </svg>
-                            <input type="text" id="bf-uid" name="uid" placeholder="Enter UID" readonly>
+                            <input type="email" id="bf-email" name="email" placeholder="your@email.com" required>
                         </div>
-                        <button type="button" class="uid-btn-trigger" id="uid-btn">Select UID Image</button>
+                        <span class="field-error">Enter a valid email address</span>
                     </div>
 
                     <div class="field">
