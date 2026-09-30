@@ -55,18 +55,18 @@ document.addEventListener('DOMContentLoaded', function () {
         deposit: {
             pill: 'Deposit Issue',
             title: 'Report Deposit Problem',
-            sub: 'Apni details aur payment proof bharein taaki hum jaldi help kar sakein.',
+            sub: 'Fill in your details and payment proof so we can help you quickly.',
             label: 'Select Deposit Problem',
             upload: 'Upload Payment Image',
-            options: ['Processing', 'Reject', 'Faild', 'Not Resive Game Account']
+            options: ['Processing', 'Rejected', 'Failed', 'Not Received in Game Account']
         },
         withdrawal: {
             pill: 'Withdrawal Issue',
             title: 'Report Withdrawal Problem',
-            sub: 'Apni details aur withdrawal proof bharein taaki hum jaldi help kar sakein.',
+            sub: 'Fill in your details and withdrawal proof so we can help you quickly.',
             label: 'Select Withdrawal Problem',
             upload: 'Upload Withdrawal Issue Image',
-            options: ['Processing', 'Reject', 'Faild', 'Amount Not Resive Bank Account']
+            options: ['Processing', 'Rejected', 'Failed', 'Amount Not Received in Bank Account']
         }
     };
 

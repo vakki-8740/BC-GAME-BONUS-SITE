@@ -328,9 +328,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     var errors = {
         full_name: 'Please enter your name',
-        uid: 'UID me sirf 9 digit number hona chahiye',
+        uid: 'UID must contain exactly 9 digits',
         email: 'Enter a valid email address',
-        utr: 'UTR me sirf number allowed hai'
+        utr: 'Only numbers are allowed in UTR'
     };
 
     function validateField(input) {
@@ -435,7 +435,7 @@ document.addEventListener('DOMContentLoaded', function () {
         agreeBox.classList.remove('invalid');
         selectedPlan = null;
         togglePayBlock(false);
-        amountValue.textContent = 'Tap to choose bonus plan';
+        amountValue.textContent = 'Tap to choose a bonus plan';
         amountValue.classList.remove('filled');
     });
 
