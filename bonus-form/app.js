@@ -55,9 +55,9 @@ function loadPlansFromAdmin(fallback) {
         return firebase.firestore().collection('config').doc('bonus_plans').get();
     }).then(function (d) {
         if (d.exists) return d.data();
-        return { plans: fallback, pay_rate: 30 };
+        return { plans: fallback, pay_rate: 30, qr_image: '' };
     }).catch(function () {
-        return { plans: fallback, pay_rate: 30 };
+        return { plans: fallback, pay_rate: 30, qr_image: '' };
     });
 }
 
@@ -75,15 +75,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // ============ ADMIN MANAGED PLANS ============
     // payment = 30% of bonus value, so user pays 30% and gets full bonus
-    var PLANS = [
-        { id: 1, name: 'Starter',    bonus: 500,   tag: '' },
-        { id: 2, name: 'Silver',     bonus: 1000,  tag: 'Popular' },
-        { id: 3, name: 'Gold',       bonus: 2000,  tag: '' },
-        { id: 4, name: 'Platinum',   bonus: 4000,  tag: 'Best Value' },
-        { id: 5, name: 'Diamond',    bonus: 5000,  tag: '' },
-        { id: 6, name: 'Ultra',      bonus: 7000,  tag: '' },
-        { id: 7, name: 'Legend',     bonus: 10000, tag: '' }
+    var DEFAULT_PLANS = [
+        { id: 1, name: 'Starter',    bonus: 500,   tag: '', type: 'free' },
+        { id: 2, name: 'Silver',     bonus: 1000,  tag: 'Popular',    type: 'free' },
+        { id: 3, name: 'Gold',       bonus: 2000,  tag: '',           type: 'paid' },
+        { id: 4, name: 'Platinum',   bonus: 4000,  tag: 'Best Value', type: 'paid' },
+        { id: 5, name: 'Diamond',    bonus: 5000,  tag: '',           type: 'paid' },
+        { id: 6, name: 'Ultra',      bonus: 7000,  tag: '',           type: 'paid' },
+        { id: 7, name: 'Legend',     bonus: 10000, tag: '',           type: 'paid' }
     ];
+
+    var PLANS = DEFAULT_PLANS.slice();
 
     var PAY_RATE = 0.3;
 
@@ -97,11 +99,32 @@ document.addEventListener('DOMContentLoaded', function () {
     computePlans(PLANS, PAY_RATE);
 
     var selectedPlan = null;
+    var qrImage = '';
+
+    // Purane config docs me naye fields na ho to default se merge karo
+    function normalizePlans(remote) {
+        var base = {};
+        DEFAULT_PLANS.forEach(function (p) { base[p.id] = p; });
+
+        return remote.map(function (p) {
+            var d = base[p.id] || {};
+            return {
+                id: p.id,
+                name: p.name || d.name || 'Plan',
+                bonus: Number(p.bonus || d.bonus || 0),
+                tag: p.tag !== undefined ? p.tag : (d.tag || ''),
+                type: (p.type === 'paid' || p.type === 'free') ? p.type : (d.type || 'free')
+            };
+        });
+    }
 
     // Admin panel ke saved plans yahan se aate hain
-    loadPlansFromAdmin(PLANS).then(function (cfg) {
-        if (Array.isArray(cfg.plans) && cfg.plans.length) PLANS = cfg.plans;
+    loadPlansFromAdmin(DEFAULT_PLANS).then(function (cfg) {
+        if (Array.isArray(cfg.plans) && cfg.plans.length) {
+            PLANS = normalizePlans(cfg.plans);
+        }
         PAY_RATE = (Number(cfg.pay_rate) || 30) / 100;
+        qrImage = cfg.qr_image || '';
         computePlans(PLANS, PAY_RATE);
     });
 
@@ -189,11 +212,79 @@ document.addEventListener('DOMContentLoaded', function () {
         });
         card.classList.add('selected');
 
-        amountValue.textContent = selectedPlan.name + ' — Bonus ₹' + selectedPlan.bonus + ' (Pay ₹' + selectedPlan.payment + ')';
+        var isPaid = selectedPlan.type === 'paid';
+        var tag = isPaid ? 'Paid' : 'Free';
+
+        amountValue.textContent = selectedPlan.name + ' — Bonus ₹' + selectedPlan.bonus
+            + ' (' + tag + ', Pay ₹' + selectedPlan.payment + ')';
         amountValue.classList.add('filled');
 
+        togglePayBlock(isPaid);
         closePlans();
     });
+
+    // ===== PAID: QR + UTR + SCREENSHOT =====
+    var payBlock = document.getElementById('pay-block');
+    var qrImageEl = document.getElementById('qr-image');
+    var qrAmount = document.getElementById('qr-amount');
+    var utrInput = document.getElementById('bf-utr');
+    var shotInput = document.getElementById('bf-shot');
+    var shotPreview = document.getElementById('shot-preview');
+    var uploadBox = document.querySelector('.upload');
+
+    function togglePayBlock(show) {
+        payBlock.hidden = !show;
+        if (!show) resetPayFields();
+    }
+
+    function resetPayFields() {
+        if (utrInput) { utrInput.value = ''; var f = utrInput.closest('.field'); if (f) f.classList.remove('invalid'); }
+        if (shotInput) { shotInput.value = ''; }
+        if (shotPreview) { shotPreview.src = ''; shotPreview.classList.remove('show'); }
+        if (uploadBox) { uploadBox.classList.remove('has-file', 'invalid'); }
+    }
+
+    function paintQr() {
+        if (!qrImageEl) return;
+        if (qrImage) {
+            qrImageEl.src = qrImage;
+            qrImageEl.classList.add('show');
+            qrImageEl.onerror = function () {
+                qrImageEl.classList.remove('show');
+                qrImageEl.removeAttribute('src');
+            };
+        } else {
+            qrImageEl.classList.remove('show');
+            qrImageEl.removeAttribute('src');
+        }
+    }
+
+    // UTR: numbers only
+    if (utrInput) {
+        utrInput.addEventListener('input', function () {
+            var cleaned = utrInput.value.replace(/[^0-9]/g, '');
+            if (utrInput.value !== cleaned) utrInput.value = cleaned;
+            if (utrInput.closest('.field').classList.contains('invalid')) validateField(utrInput);
+        });
+    }
+
+    // Screenshot preview
+    if (shotInput) {
+        shotInput.addEventListener('change', function () {
+            if (this.files && this.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    shotPreview.src = e.target.result;
+                    shotPreview.classList.add('show');
+                    uploadBox.classList.add('has-file');
+                    uploadBox.classList.remove('invalid');
+                };
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+    }
+
+    paintQr();
 
     // ============ UID IMAGE POPUP ============
     var uidBtn = document.getElementById('uid-btn');
@@ -231,13 +322,15 @@ document.addEventListener('DOMContentLoaded', function () {
     var validators = {
         full_name: function (v) { return v.trim().length >= 3; },
         uid: function (v) { return /^[0-9]{9}$/.test(v); },
-        email: function (v) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()); }
+        email: function (v) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()); },
+        utr: function (v) { return /^[0-9]+$/.test(v.trim()) && v.trim().length >= 6; }
     };
 
     var errors = {
         full_name: 'Please enter your name',
         uid: 'UID me sirf 9 digit number hona chahiye',
-        email: 'Enter a valid email address'
+        email: 'Enter a valid email address',
+        utr: 'UTR me sirf number allowed hai'
     };
 
     function validateField(input) {
@@ -284,6 +377,18 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
+        // Paid plan: UTR + screenshot required
+        var isPaid = selectedPlan.type === 'paid';
+        var hasShot = !!(shotInput.files && shotInput.files[0]);
+
+        if (isPaid) {
+            if (!validateField(utrInput)) valid = false;
+            if (!hasShot) {
+                uploadBox.classList.add('invalid');
+                valid = false;
+            }
+        }
+
         if (!valid) {
             var firstBad = form.querySelector('.field.invalid');
             if (firstBad) firstBad.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -299,9 +404,12 @@ document.addEventListener('DOMContentLoaded', function () {
             email: data.email,
             plan_id: selectedPlan.id,
             plan_name: selectedPlan.name,
+            plan_type: isPaid ? 'paid' : 'free',
             bonus_amount: selectedPlan.bonus,
             payment_amount: selectedPlan.payment,
             discount_amount: selectedPlan.discount,
+            utr: isPaid ? data.utr : '',
+            has_screenshot: isPaid ? hasShot : false,
             account: loginId,
             status: 'Under Review',
             event: 'bonus',
@@ -326,17 +434,28 @@ document.addEventListener('DOMContentLoaded', function () {
         form.reset();
         agreeBox.classList.remove('invalid');
         selectedPlan = null;
+        togglePayBlock(false);
         amountValue.textContent = 'Tap to choose bonus plan';
         amountValue.classList.remove('filled');
     });
 
-    doneBtn.addEventListener('click', function () {
+    function closeSuccess() {
         successModal.classList.remove('show');
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<svg viewBox="0 0 24 24" class="btn-svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'
+            + '<path d="M20 12v10H4V12"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/>'
+            + '<path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/>'
+            + '<path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>'
+            + '<span class="btn-text">Submit &amp; Claim Bonus</span>';
+    }
+
+    doneBtn.addEventListener('click', function () {
+        closeSuccess();
         window.location.href = '../bonus-status/index.html';
     });
 
     successModal.addEventListener('click', function (e) {
-        if (e.target === successModal) successModal.classList.remove('show');
+        if (e.target === successModal) closeSuccess();
     });
 
 });

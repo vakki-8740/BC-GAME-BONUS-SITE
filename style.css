@@ -258,6 +258,93 @@ a {
     background: var(--card-inner);
 }
 
+/* ===== COMPLAINT STRIP ===== */
+.complaint-strip {
+    margin-top: 16px;
+    padding: 22px 24px;
+    background: var(--card);
+    border: 1px solid var(--divider);
+    border-radius: 14px;
+    animation: riseIn .5s ease .14s both;
+}
+
+.strip-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: #FFFFFF;
+}
+
+.strip-sub {
+    margin-top: 4px;
+    font-size: 13px;
+    color: var(--text-dim-2);
+}
+
+.strip-cards {
+    margin-top: 15px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 11px;
+}
+
+.strip-card {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 15px;
+    border-radius: 13px;
+    background: var(--card-inner);
+    border: 1px solid var(--divider);
+    transition: border-color .2s ease, background .2s ease, transform .2s ease;
+}
+
+.strip-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(41, 169, 232, .4);
+    background: #282930;
+}
+
+.strip-icon {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    border-radius: 11px;
+    background: var(--card);
+    border: 1px solid var(--divider);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--blue);
+}
+
+.strip-icon svg { width: 19px; height: 19px; }
+
+.strip-mid { flex: 1; min-width: 0; }
+
+.strip-name {
+    display: block;
+    font-size: 14.5px;
+    font-weight: 700;
+    color: #FFFFFF;
+}
+
+.strip-text {
+    display: block;
+    margin-top: 3px;
+    font-size: 12px;
+    color: var(--text-dim-2);
+}
+
+.strip-arrow {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    color: #A5A5A5;
+    transition: color .2s ease, transform .2s ease;
+}
+
+.strip-card:hover .strip-arrow { color: var(--green-hi); transform: translateX(3px); }
+
 /* ===== INFO CARDS ===== */
 .info-grid {
     margin-top: 26px;
@@ -350,6 +437,14 @@ a {
     .info-grid {
         grid-template-columns: 1fr;
         gap: 10px;
+    }
+
+    .strip-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .complaint-strip {
+        padding: 18px;
     }
 
     .card {

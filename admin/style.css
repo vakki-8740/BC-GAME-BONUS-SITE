@@ -548,6 +548,88 @@ button { font-family: inherit; }
 
 .plan-input input:focus { border-color: var(--green); }
 
+.plan-input select {
+    height: 38px;
+    padding: 0 11px;
+    background: var(--card);
+    border: 1px solid var(--divider);
+    border-radius: 8px;
+    outline: none;
+    color: var(--text-normal);
+    font-size: 13.5px;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.plan-input select:focus { border-color: var(--green); }
+
+.plan-input select option { background: var(--card); color: var(--text-normal); }
+
+/* ===== QR SETTING ===== */
+.qr-setting {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 16px;
+    margin-bottom: 18px;
+    background: var(--card-inner);
+    border: 1px solid var(--divider);
+    border-radius: 12px;
+    flex-wrap: wrap;
+}
+
+.qr-setting-left { flex: 1 1 260px; min-width: 0; }
+
+.qr-help {
+    margin-top: 4px;
+    margin-bottom: 10px;
+    font-size: 12px;
+    color: var(--text-dim-2);
+    line-height: 1.45;
+}
+
+.qr-setting-left input {
+    width: 100%;
+    height: 42px;
+    padding: 0 13px;
+    background: var(--card);
+    border: 1px solid var(--divider);
+    border-radius: 10px;
+    outline: none;
+    color: var(--text-normal);
+    font-size: 14px;
+}
+
+.qr-setting-left input:focus { border-color: var(--blue); }
+
+.qr-setting-right { flex-shrink: 0; text-align: center; }
+
+.qr-preview-label {
+    display: block;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: .4px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 6px;
+}
+
+.qr-preview {
+    width: 120px;
+    height: 120px;
+    border-radius: 11px;
+    background: var(--card);
+    border: 1px dashed var(--divider);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.qr-preview img { width: 100%; height: 100%; object-fit: contain; }
+
+.qr-empty { font-size: 11.5px; color: var(--text-dim); padding: 8px; }
+
 .plan-out {
     font-size: 12.5px;
     font-weight: 700;

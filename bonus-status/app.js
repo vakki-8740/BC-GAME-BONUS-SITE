@@ -10,14 +10,25 @@ document.addEventListener('DOMContentLoaded', function () {
         { key: 'uid', label: 'Game UID' },
         { key: 'email', label: 'Email ID' },
         { key: 'plan_name', label: 'Plan' },
+        { key: 'plan_type', label: 'Plan Type', upper: true },
         { key: 'bonus_amount', label: 'Bonus Amount', prefix: RUPEE },
         { key: 'payment_amount', label: 'Payment Amount', prefix: RUPEE },
-        { key: 'discount_amount', label: 'Discount', suffix: '%' }
+        { key: 'discount_amount', label: 'Discount', suffix: '%' },
+        { key: 'utr', label: 'UTR Number' },
+        { key: 'has_screenshot', label: 'Screenshot', bool: true }
     ];
 
     function setText(id, text) {
         var el = document.getElementById(id);
         if (el) el.textContent = text;
+    }
+
+    function fmtCell(raw, f) {
+        if (raw === undefined || raw === null || raw === '') return DASH;
+        if (f.bool) return raw ? 'Uploaded' : 'Not uploaded';
+        var s = String(raw);
+        if (f.upper) s = s.toUpperCase();
+        return (f.prefix || '') + s + (f.suffix || '');
     }
 
     function formatFull(d) {
@@ -67,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         var value = document.createElement('span');
         value.className = 'cell-value';
-        value.textContent = (latest[f.key] === undefined || latest[f.key] === '' ? DASH : (f.prefix || '') + latest[f.key] + (f.suffix || ''));
+        value.textContent = fmtCell(latest[f.key], f);
 
         cell.appendChild(label);
         cell.appendChild(value);

@@ -105,6 +105,79 @@
                         </button>
                     </div>
 
+                    <!-- PAID PLAN: QR + UTR + SCREENSHOT -->
+                    <div class="pay-block" id="pay-block" hidden>
+
+                        <div class="pay-step">
+                            <span class="pay-step-no">1</span>
+                            <div class="pay-step-body">
+                                <h3 class="pay-step-title">Scan &amp; Pay</h3>
+                                <p class="pay-step-sub">Neeche QR scan karke payment karein</p>
+
+                                <div class="qr-card" id="qr-card">
+                                    <div class="qr-frame">
+                                        <img id="qr-image" alt="Payment QR" src="">
+                                        <span class="qr-fallback" id="qr-fallback">
+                                            <svg viewBox="0 0 24 24" class="qr-fallback-icon" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                                                <rect x="3" y="3" width="7" height="7" rx="1"/>
+                                                <rect x="14" y="3" width="7" height="7" rx="1"/>
+                                                <rect x="3" y="14" width="7" height="7" rx="1"/>
+                                                <path d="M14 14h3v3h-3zM19 19h2v2h-2zM14 19h2M19 14h2"/>
+                                            </svg>
+                                            QR abhi available nahi hai
+                                        </span>
+                                    </div>
+                                    <div class="qr-amount">
+                                        <span class="qr-amount-label">Amount to Pay</span>
+                                        <span class="qr-amount-value" id="qr-amount">₹0</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pay-step">
+                            <span class="pay-step-no">2</span>
+                            <div class="pay-step-body">
+                                <h3 class="pay-step-title">UTR Number</h3>
+                                <p class="pay-step-sub">Payment ke baad mila UTR number yahan daalein</p>
+
+                                <div class="field">
+                                    <div class="field-wrap">
+                                        <svg viewBox="0 0 24 24" class="field-icon" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M4 7V4h16v3"/>
+                                            <rect x="4" y="4" width="16" height="16" rx="2"/>
+                                            <path d="M8 10h8M8 14h5"/>
+                                        </svg>
+                                        <input type="text" id="bf-utr" name="utr" inputmode="numeric" placeholder="Enter UTR number (numbers only)">
+                                    </div>
+                                    <span class="field-error">UTR me sirf number allowed hai</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pay-step">
+                            <span class="pay-step-no">3</span>
+                            <div class="pay-step-body">
+                                <h3 class="pay-step-title">Payment Screenshot</h3>
+                                <p class="pay-step-sub">Payment ka screenshot upload karein</p>
+
+                                <label class="upload" for="bf-shot">
+                                    <input type="file" id="bf-shot" name="screenshot" accept="image/*" hidden>
+                                    <span class="upload-idle">
+                                        <svg viewBox="0 0 24 24" class="upload-icon" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                            <path d="m17 8-5-5-5 5"/><path d="M12 3v12"/>
+                                        </svg>
+                                        <span class="upload-text">Tap to upload screenshot</span>
+                                    </span>
+                                    <img class="upload-preview" id="shot-preview" src="" alt="">
+                                    <span class="upload-error">Please upload payment screenshot</span>
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+
                     <label class="checkbox">
                         <input type="checkbox" id="bf-agree" required>
                         <span class="checkbox-box">

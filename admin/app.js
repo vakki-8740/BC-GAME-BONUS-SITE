@@ -294,17 +294,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // ================= PLANS =================
     var DEFAULT_PLANS = [
-        { id: 1, name: 'Starter', bonus: 500, tag: '' },
-        { id: 2, name: 'Silver', bonus: 1000, tag: 'Popular' },
-        { id: 3, name: 'Gold', bonus: 2000, tag: '' },
-        { id: 4, name: 'Platinum', bonus: 4000, tag: 'Best Value' },
-        { id: 5, name: 'Diamond', bonus: 5000, tag: '' },
-        { id: 6, name: 'Ultra', bonus: 7000, tag: '' },
-        { id: 7, name: 'Legend', bonus: 10000, tag: '' }
+        { id: 1, name: 'Starter',    bonus: 500,   tag: '', type: 'free' },
+        { id: 2, name: 'Silver',     bonus: 1000,  tag: 'Popular', type: 'free' },
+        { id: 3, name: 'Gold',       bonus: 2000,  tag: '', type: 'paid' },
+        { id: 4, name: 'Platinum',   bonus: 4000,  tag: 'Best Value', type: 'paid' },
+        { id: 5, name: 'Diamond',    bonus: 5000,  tag: '', type: 'paid' },
+        { id: 6, name: 'Ultra',      bonus: 7000,  tag: '', type: 'paid' },
+        { id: 7, name: 'Legend',     bonus: 10000, tag: '', type: 'paid' }
     ];
 
     var plans = DEFAULT_PLANS.slice();
     var payRate = 30;
+    var qrImage = '';
 
     function loadPlans() {
         db.collection('config').doc('bonus_plans').get().then(function (d) {
@@ -312,6 +313,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 var o = d.data();
                 if (Array.isArray(o.plans) && o.plans.length) plans = o.plans;
                 if (o.pay_rate) payRate = o.pay_rate;
+                if (o.qr_image) qrImage = o.qr_image;
             }
             renderPlans();
         }).catch(function () { renderPlans(); });
@@ -320,16 +322,42 @@ document.addEventListener('DOMContentLoaded', function () {
     function renderPlans() {
         document.getElementById('pay-rate').value = payRate;
 
+        var qrInput = document.getElementById('qr-url');
+        if (qrInput && document.activeElement !== qrInput) qrInput.value = qrImage;
+
+        renderQrPreview();
+
         document.getElementById('plans-edit').innerHTML = plans.map(function (p, i) {
             var pay = Math.round(Number(p.bonus) * (Number(payRate) / 100));
+            var type = p.type === 'paid' ? 'paid' : 'free';
+
             return '<div class="plan-row" data-i="' + i + '">'
                 + '<span class="plan-row-id">' + (i + 1) + '</span>'
                 + inp('name', p.name, 'Plan Name')
                 + inp('bonus', p.bonus, 'Bonus ₹', 'number')
-                + inp('tag', p.tag, 'Tag', 'text')
+                + inp('tag', p.tag, 'Tag')
+                + '<div class="plan-input">'
+                + '<label>Type</label>'
+                + '<select data-key="type">'
+                + '<option value="free"' + (type === 'free' ? ' selected' : '') + '>Free</option>'
+                + '<option value="paid"' + (type === 'paid' ? ' selected' : '') + '>Paid</option>'
+                + '</select>'
+                + '</div>'
                 + '<span class="plan-out">Pay ₹' + pay + '</span>'
                 + '</div>';
         }).join('');
+    }
+
+    function renderQrPreview() {
+        var box = document.getElementById('qr-preview');
+        if (!box) return;
+
+        if (!qrImage) {
+            box.innerHTML = '<span class="qr-empty">No QR set</span>';
+            return;
+        }
+
+        box.innerHTML = '<img src="' + esc(qrImage) + '" alt="QR" onerror="this.parentNode.innerHTML=\'<span class="qr-empty">Image load failed</span>\'">';
     }
 
     function inp(key, val, label, type) {
@@ -337,8 +365,13 @@ document.addEventListener('DOMContentLoaded', function () {
             + '<input type="' + (type || 'text') + '" data-key="' + key + '" value="' + esc(val) + '"></div>';
     }
 
+    document.getElementById('qr-url').addEventListener('input', function (e) {
+        qrImage = e.target.value.trim();
+        renderQrPreview();
+    });
+
     document.getElementById('plans-edit').addEventListener('input', function (e) {
-        var input = e.target.closest('input');
+        var input = e.target.closest('input, select');
         if (!input) return;
 
         var row = input.closest('.plan-row');
@@ -363,6 +396,7 @@ document.addEventListener('DOMContentLoaded', function () {
         db.collection('config').doc('bonus_plans').set({
             plans: plans,
             pay_rate: payRate,
+            qr_image: qrImage,
             updated_at: firebase.firestore.FieldValue.serverTimestamp()
         }).then(function () {
             showToast('Plans saved');

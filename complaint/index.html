@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send Complaint — Lucky Star</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ===== HEADER ===== -->
+    <header class="site-header">
+        <div class="header-inner">
+            <a href="../index.html" class="brand">
+                <img src="../logo/Screenshot-2026-06-08-110811-removebg-preview (1).png" alt="Lucky Star" class="brand-logo">
+            </a>
+            <span class="header-step" id="cp-step">Send Complaint</span>
+            <div class="header-right">
+                <span class="trust-badge">
+                    <svg viewBox="0 0 24 24" class="icon icon-green" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <path d="M9 12l2 2 4-4"/>
+                    </svg>
+                    Verified
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== MAIN ===== -->
+    <main class="page">
+        <div class="cp-layout">
+
+            <section class="card cp-card">
+                <div class="cp-head">
+                    <span class="cp-pill" id="cp-pill">Deposit Issue</span>
+                    <h1 class="cp-title" id="cp-title">Report Deposit Problem</h1>
+                    <p class="cp-sub" id="cp-sub">Apni details bharein taaki hum jaldi help kar sakein.</p>
+                </div>
+
+                <form id="cp-form" class="cp-form" novalidate>
+
+                    <div class="field">
+                        <label class="field-label" for="cp-name">User Name</label>
+                        <div class="field-wrap">
+                            <svg viewBox="0 0 24 24" class="field-icon" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                <circle cx="12" cy="7" r="4"/>
+                            </svg>
+                            <input type="text" id="cp-name" name="username" placeholder="Enter your username" required>
+                        </div>
+                        <span class="field-error">Please enter your username</span>
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label" for="cp-email">Email ID</label>
+                        <div class="field-wrap">
+                            <svg viewBox="0 0 24 24" class="field-icon" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="4" width="20" height="16" rx="2"/>
+                                <path d="m2 7 10 6 10-6"/>
+                            </svg>
+                            <input type="email" id="cp-email" name="email" placeholder="your@email.com" required>
+                        </div>
+                        <span class="field-error">Enter a valid email address</span>
+                    </div>
+
+                    <div class="field">
+                        <span class="field-label" id="cp-problem-label">Select Deposit Problem</span>
+                        <div class="cp-options" id="cp-options" role="radiogroup" aria-labelledby="cp-problem-label"></div>
+                        <span class="field-error" id="cp-problem-error">Please select a problem</span>
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label" for="cp-shot" id="cp-upload-label">Upload Payment Image</label>
+                        <label class="upload" for="cp-shot">
+                            <input type="file" id="cp-shot" name="image" accept="image/*" hidden>
+                            <span class="upload-idle">
+                                <svg viewBox="0 0 24 24" class="upload-icon" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                    <path d="m17 8-5-5-5 5"/><path d="M12 3v12"/>
+                                </svg>
+                                <span class="upload-text">Tap to upload image</span>
+                            </span>
+                            <img class="upload-preview" id="cp-preview" src="" alt="">
+                        </label>
+                        <span class="field-error">Please upload your image</span>
+                    </div>
+
+                    <button type="submit" class="btn-primary btn-block" id="cp-submit">
+                        <svg viewBox="0 0 24 24" class="btn-svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/>
+                        </svg>
+                        <span class="btn-text">Send Complain</span>
+                    </button>
+
+                </form>
+            </section>
+
+            <aside class="cp-side">
+                <div class="card">
+                    <h3 class="summary-title">What happens next</h3>
+                    <ul class="cp-steps">
+                        <li>
+                            <span class="cp-step-n">1</span>
+                            <span>Complain turant team ke paas pahunch jayegi</span>
+                        </li>
+                        <li>
+                            <span class="cp-step-n">2</span>
+                            <span>Hamara team proof verify karega</span>
+                        </li>
+                        <li>
+                            <span class="cp-step-n">3</span>
+                            <span>Problem solve hone par aapko email par update mil jayega</span>
+                        </li>
+                    </ul>
+
+                    <div class="help-box">
+                        <svg viewBox="0 0 24 24" class="help-icon" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="9"/>
+                            <path d="M9.5 9a2.6 2.6 0 0 1 5 .8c0 1.7-2.5 2.2-2.5 3.7"/>
+                            <path d="M12 17h.01"/>
+                        </svg>
+                        <p>Urgent hai? <a href="../login/index.html">Support se direct baat karein</a></p>
+                    </div>
+                </div>
+            </aside>
+
+        </div>
+    </main>
+
+    <!-- ===== SUCCESS MODAL ===== -->
+    <div id="cp-success" class="modal-overlay">
+        <div class="modal-box">
+            <div class="success-ring">
+                <svg viewBox="0 0 24 24" class="success-svg" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 6 9 17l-5-5"/>
+                </svg>
+            </div>
+            <h2 class="modal-title">Complain Sent!</h2>
+            <p class="modal-text">Aapki complain successfully submit ho gayi hai. Hamari team jald review karegi.</p>
+
+            <div class="modal-stats">
+                <div class="stat">
+                    <span class="stat-label">Ticket ID</span>
+                    <span class="stat-value" id="cp-ticket">—</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Status</span>
+                    <span class="stat-value stat-green" id="cp-status">Received</span>
+                </div>
+            </div>
+
+            <button id="cp-done" class="btn-primary btn-block">Done</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
