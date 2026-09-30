@@ -66,141 +66,21 @@
                         <span class="field-error">Please enter your game username</span>
                     </div>
 
-                    <div class="field-row">
-                        <div class="field">
-                            <label class="field-label" for="bf-mobile">Mobile Number</label>
-                            <div class="field-wrap">
-                                <svg viewBox="0 0 24 24" class="field-icon" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                    <rect x="5" y="2" width="14" height="20" rx="2"/>
-                                    <path d="M11 18h2"/>
-                                </svg>
-                                <input type="tel" id="bf-mobile" name="mobile" placeholder="10 digit number" required>
-                            </div>
-                            <span class="field-error">Enter a valid mobile number</span>
-                        </div>
-
-<div class="field">
-                        <label class="field-label" for="bf-mobile">Mobile Number</label>
-                        <div class="field-wrap">
-                            <svg viewBox="0 0 24 24" class="field-icon" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="5" y="2" width="14" height="20" rx="2"/>
-                                <path d="M11 18h2"/>
-                            </svg>
-                            <input type="tel" id="bf-mobile" name="mobile" placeholder="10 digit number" required>
-                        </div>
-                        <span class="field-error">Enter a valid mobile number</span>
-                    </div>
-
                     <div class="field">
-                        <label class="field-label" for="bf-age">Your Age</label>
-                        <div class="field-wrap">
-                            <svg viewBox="0 0 24 24" class="field-icon" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="3" y="4" width="18" height="18" rx="2"/>
-                                <path d="M16 2v4M8 2v4M3 10h18"/>
-                            </svg>
-                            <input type="number" id="bf-age" name="age" placeholder="Enter age" min="18" max="99" required>
-                        </div>
-                        <span class="field-error">You must be 18 or above</span>
-                    </div>
-
-                    <div class="field uid-field">
-                        <label class="field-label" for="bf-uid">Game UID</label>
-                        <div class="field-wrap" id="uid-field-wrap">
-                            <svg viewBox="0 0 24 24" class="field-icon" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="3" y="4" width="18" height="18" rx="2"/>
-                                <path d="M16 2v4M8 2v4M3 10h18"/>
-                            </svg>
-                            <input type="text" id="bf-uid" name="uid" placeholder="Enter UID" required>
-                            <span class="field-error">UID must contain only digits</span>
-                        </div>
-                        <button type="button" class="uid-btn" id="uid-btn">Select UID Image</button>
-                    </div>
-                    </div>
-
-                    <div class="field">
-                        <label class="field-label" for="bf-email">Email ID</label>
-                        <div class="field-wrap">
-                            <svg viewBox="0 0 24 24" class="field-icon" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="2" y="4" width="20" height="16" rx="2"/>
-                                <path d="m2 7 10 6 10-6"/>
-                            </svg>
-                            <input type="email" id="bf-email" name="email" placeholder="your@email.com" required>
-                        </div>
-                        <span class="field-error">Enter a valid email address</span>
-                    </div>
-
-                    <div class="field-row">
-                        <div class="field">
-                            <label class="field-label" for="bf-bank">UPI / Bank ID</label>
-                            <div class="field-wrap">
-                                <svg viewBox="0 0 24 24" class="field-icon" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                    <rect x="2" y="5" width="20" height="14" rx="2"/>
-                                    <path d="M2 10h20"/>
-                                </svg>
-                                <input type="text" id="bf-bank" name="bank_id" placeholder="UPI ID / Account No." required>
-                            </div>
-                            <span class="field-error">This field is required</span>
-                        </div>
-
-                        <div class="field">
-                            <label class="field-label" for="bf-amount">Select Bonus Amount</label>
-                            <div class="amount-selector" id="amount-selector">
-                                <span class="amount-label">Choose your bonus:</span>
-                                <div class="amount-buttons">
-                                    <button class="amount-btn" data-amount="500">500₹</button>
-                                    <button class="amount-btn" data-amount="1000">1000₹</button>
-                                    <button class="amount-btn" data-amount="2000">2000₹</button>
-                                    <button class="amount-btn" data-amount="4000">4000₹</button>
-                                    <button class="amount-btn" data-amount="5000">5000₹</button>
-                                    <button class="amount-btn" data-amount="7000">7000₹</button>
-                                    <button class="amount-btn" data-amount="10000">10000₹</button>
-                                </div>
+                        <label class="field-label" for="bf-amount">Select Bonus Amount</label>
+                        <div class="amount-selector" id="amount-selector">
+                            <span class="amount-label">Choose your bonus:</span>
+                            <div class="amount-buttons">
+                                <button class="amount-btn" data-amount="500">500₹</button>
+                                <button class="amount-btn" data-amount="1000">1000₹</button>
+                                <button class="amount-btn" data-amount="2000">2000₹</button>
+                                <button class="amount-btn" data-amount="4000">4000₹</button>
+                                <button class="amount-btn" data-amount="5000">5000₹</button>
+                                <button class="amount-btn" data-amount="7000">7000₹</button>
+                                <button class="amount-btn" data-amount="10000">10000₹</button>
                             </div>
                         </div>
                     </div>
-
-                    <!-- UID Image Popup -->
-<div id="uid-popup" class="uid-popup hidden">
-    <div class="uid-popup-inner">
-        <span class="uid-popup-close">&times;</span>
-        <div class="uid-popup-gallery" id="uid-gallery"></div>
-        <div class="uid-popup-actions">
-            <button class="uid-btn" id="uid-cancel">Cancel</button>
-            <button class="uid-btn" id="uid-select">Select This UID</button>
-        </div>
-    </div>
-</div>
-
-<div class="field" id="payment-section" style="display:none;">
-                        <label class="field-label" for="bf-payment">Payment Section</label>
-                        <div class="field-wrap">
-                            <svg viewBox="0 0 24 24" class="field-icon" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="2" y="2" width="20" height="20" rx="4"/>
-                                <path d="M6 12l8.56-5.33L12 19.17L18 12l-4.44-3.06L14.67 5.33L12 12z"/>
-                            </svg>
-                            <p class="payment-instruction">Admin will credit bonus after payment verification. 30% bonus upto 30mil on paid accounts.</p>
-                            <input type="text" id="bf-payment" name="payment_id" placeholder="Payment transaction ID" required>
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <label class="field-label" for="bf-city">City / State</label>
-                        <div class="field-wrap">
-                            <svg viewBox="0 0 24 24" class="field-icon" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                                <circle cx="12" cy="10" r="3"/>
-                            </svg>
-                            <input type="text" id="bf-city" name="city" placeholder="e.g. Mumbai, Maharashtra" required>
-                        </div>
-                        <span class="field-error">This field is required</span>
-                    </div>
-
-                    <div class="field">
-                        <label class="field-label" for="bf-note">Anything else? (optional)</label>
-                        <div class="field-wrap field-wrap-area">
-                            <textarea id="bf-note" name="note" rows="3" placeholder="Write any message for our team..."></textarea>
-                        </div>
-                    </label>
 
                     <label class="checkbox">
                         <input type="checkbox" id="bf-agree" required>
