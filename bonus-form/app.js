@@ -54,7 +54,10 @@ function loadPlansFromAdmin(fallback) {
         if (!firebase.apps.length) firebase.initializeApp(FIREBASE_CONFIG);
         return firebase.firestore().collection('config').doc('bonus_plans').get();
     }).then(function (d) {
-        if (d.exists) return d.data();
+        if (d.exists) {
+            var data = d.data();
+            return { plans: fallback, pay_rate: (Number(data.pay_rate) || 30), qr_image: data.qr_image || '' };
+        }
         return { plans: fallback, pay_rate: 30, qr_image: '' };
     }).catch(function () {
         return { plans: fallback, pay_rate: 30, qr_image: '' };
@@ -99,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function () {
     computePlans(PLANS, PAY_RATE);
 
     var selectedPlan = null;
-    var qrImage = '';
+    var qrImage = '../QR-CODE/photo_2026-10-01_11-58-24.jpg';
 
     // Purane config docs me naye fields na ho to default se merge karo
     function normalizePlans(remote) {
